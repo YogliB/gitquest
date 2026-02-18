@@ -1,0 +1,11 @@
+{
+  "name": "gitquest",
+  "version": "1.0.0",
+  "description": "Transform any GitHub repository into a text adventure RPG",
+  "scripts": {
+    "dev": "npx serve . --single --listen 3000",
+    "start": "npx serve . --single --listen 3000"
+  },
+  "keywords": ["git", "game", "rpg", "text-adventure"],
+  "license": "MIT"
+}

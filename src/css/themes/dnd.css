@@ -1,0 +1,86 @@
+/* ═══════════════════════════════════════════════════════════
+   GitQuest — D&D Theme
+   Parchment, amber, medieval fantasy
+═══════════════════════════════════════════════════════════ */
+body.theme-dnd {
+  --font-title: 'Cinzel Decorative', serif;
+  --font-body: 'Cinzel', serif;
+  --font-mono: 'Special Elite', serif;
+  --font-ui: 'Cinzel', serif;
+
+  --color-bg: #0f0b06;
+  --color-surface: #1e1509;
+  --color-surface-2: #2d1f0d;
+  --color-border: #5a3e18;
+  --color-border-glow: #c8922a;
+  --color-text: #e8d5a3;
+  --color-text-dim: #8a7050;
+  --color-text-bright: #f5e6c0;
+  --color-accent: #c8922a;
+  --color-accent-2: #8b3a3a;
+  --color-accent-glow: rgba(200, 146, 42, 0.25);
+  --color-hp: #8b3a3a;
+  --color-xp: #3a7a3a;
+  --color-choice-bg: rgba(30, 21, 9, 0.95);
+  --color-choice-hover: rgba(200, 146, 42, 0.12);
+}
+
+/* Parchment texture on story panel */
+body.theme-dnd .story-scene {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Decorative border on style card */
+body.theme-dnd .style-card[data-style="dnd"] {
+  border-color: #c8922a;
+  box-shadow: 0 0 0 1px rgba(200,146,42,0.2), inset 0 0 40px rgba(200,146,42,0.05);
+}
+body.theme-dnd .style-card[data-style="dnd"] .style-card-glow {
+  background: linear-gradient(135deg, rgba(200,146,42,0.15), transparent 60%);
+  border: 1px solid rgba(200,146,42,0.4);
+}
+
+/* Logo icon for DnD */
+body.theme-dnd .logo-icon::after { content: ''; }
+
+/* Ornamental dividers */
+body.theme-dnd .scene-location::before {
+  content: '⸻ ';
+  opacity: 0.5;
+}
+body.theme-dnd .scene-location::after {
+  content: ' ⸻';
+  opacity: 0.5;
+}
+
+/* Choice buttons get a scroll-like feel */
+body.theme-dnd .choice-btn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+}
+
+/* Animated candle flicker on loading */
+body.theme-dnd .loading-icon {
+  animation: candle-flicker 1.5s ease-in-out infinite;
+}
+@keyframes candle-flicker {
+  0%, 100% { filter: drop-shadow(0 0 8px #c8922a) drop-shadow(0 0 20px rgba(200,146,42,0.4)); transform: scale(1); }
+  25% { filter: drop-shadow(0 0 12px #e8a030) drop-shadow(0 0 30px rgba(232,160,48,0.5)); transform: scale(1.05) rotate(2deg); }
+  50% { filter: drop-shadow(0 0 6px #c8922a) drop-shadow(0 0 15px rgba(200,146,42,0.3)); transform: scale(0.98) rotate(-1deg); }
+  75% { filter: drop-shadow(0 0 14px #e8a030) drop-shadow(0 0 35px rgba(232,160,48,0.6)); transform: scale(1.03) rotate(1deg); }
+}
+
+/* Particles are embers */
+body.theme-dnd .particle {
+  background: radial-gradient(circle, #e8a030, #c8922a);
+  border-radius: 50%;
+}
+
+/* DnD-specific game background */
+body.theme-dnd .game-bg {
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(139,58,58,0.08), transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(200,146,42,0.06), transparent 50%),
+    #0f0b06;
+}

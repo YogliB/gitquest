@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitQuest — Your Code, Your Legend</title>
+    <meta
+      name="description"
+      content="Transform any GitHub repository's commit history into an epic text adventure. Choose your story style, let AI weave the tale, and journey through your codebase like never before."
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Orbitron:wght@400;600;700;900&family=Creepster&family=Special+Elite&family=Share+Tech+Mono&family=MedievalSharp&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tone.js for algorithmic music -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="src/css/base.css" />
+    <link rel="stylesheet" href="src/css/themes/dnd.css" />
+    <link rel="stylesheet" href="src/css/themes/scifi.css" />
+    <link rel="stylesheet" href="src/css/themes/horror.css" />
+  </head>
+  <body class="theme-dnd" data-screen="landing">
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SCREEN: LANDING                                         -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div id="screen-landing" class="screen active">
+      <div class="landing-bg">
+        <div class="particles" id="particles"></div>
+      </div>
+
+      <header class="landing-header">
+        <div class="logo-wrap">
+          <div class="logo-icon">⚔</div>
+          <h1 class="logo-text">GitQuest</h1>
+          <p class="logo-tagline">Your Code, Your Legend</p>
+        </div>
+      </header>
+
+      <main class="landing-main">
+        <section class="repo-input-section">
+          <h2 class="section-title">Choose Your Repository</h2>
+          <p class="section-subtitle">
+            Enter a GitHub URL or pick a legendary codebase below
+          </p>
+
+          <div class="url-input-wrap">
+            <span class="url-prefix">github.com/</span>
+            <input
+              type="text"
+              id="repo-url-input"
+              class="repo-input"
+              placeholder="facebook/react"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button id="begin-quest-btn" class="btn btn-primary">
+              <span class="btn-icon">⚔</span>
+              Begin Quest
+            </button>
+          </div>
+          <div id="url-error" class="url-error hidden"></div>
+        </section>
+
+        <section class="popular-repos-section">
+          <h3 class="popular-title">Legendary Repositories</h3>
+          <div class="repos-grid" id="repos-grid">
+            <!-- Populated by JS -->
+          </div>
+        </section>
+      </main>
+
+      <footer class="landing-footer">
+        <p>No backend. No tracking. All magic happens in your browser.</p>
+      </footer>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SCREEN: STYLE SELECTOR                                  -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div id="screen-style" class="screen">
+      <div class="style-bg"></div>
+
+      <header class="style-header">
+        <button id="style-back-btn" class="btn btn-ghost btn-back">
+          ← Back
+        </button>
+        <div class="repo-badge" id="style-repo-badge"></div>
+        <button
+          id="settings-btn"
+          class="btn btn-ghost btn-settings"
+          title="AI Settings"
+        >
+          ⚙
+        </button>
+      </header>
+
+      <main class="style-main">
+        <h2 class="style-title">Choose Your Story</h2>
+        <p class="style-subtitle">The same commits, three different worlds</p>
+
+        <div class="style-cards">
+          <div class="style-card" data-style="dnd" tabindex="0">
+            <div class="style-card-glow"></div>
+            <div class="style-card-icon">⚔️</div>
+            <h3 class="style-card-title">Classic D&amp;D</h3>
+            <p class="style-card-desc">
+              Brave heroes, ancient dungeons, and magical artifacts. Your
+              commits become quests, bugs become monsters, and releases are
+              legendary victories.
+            </p>
+            <div class="style-card-preview dnd-preview">
+              <span class="preview-text"
+                >"The ancient tome speaks of a great refactoring..."</span
+              >
+            </div>
+            <button class="btn btn-style-select">Enter the Realm</button>
+          </div>
+
+          <div class="style-card" data-style="scifi" tabindex="0">
+            <div class="style-card-glow"></div>
+            <div class="style-card-icon">🚀</div>
+            <h3 class="style-card-title">Sci-Fi</h3>
+            <p class="style-card-desc">
+              Starships, AI uprisings, and interstellar missions. Your commits
+              are mission logs, contributors are crew members, and the codebase
+              is a living ship.
+            </p>
+            <div class="style-card-preview scifi-preview">
+              <span class="preview-text"
+                >"Captain's log: Stardate 2.4.1. The core systems have been
+                upgraded..."</span
+              >
+            </div>
+            <button class="btn btn-style-select">Launch Mission</button>
+          </div>
+
+          <div class="style-card" data-style="horror" tabindex="0">
+            <div class="style-card-glow"></div>
+            <div class="style-card-icon">💀</div>
+            <h3 class="style-card-title">Horror</h3>
+            <p class="style-card-desc">
+              Dark corridors, unspeakable bugs, and the terror of legacy code.
+              Every commit hides a secret. Not all contributors made it out
+              alive.
+            </p>
+            <div class="style-card-preview horror-preview">
+              <span class="preview-text"
+                >"The merge conflict had been there for three years. No one
+                spoke of it..."</span
+              >
+            </div>
+            <button class="btn btn-style-select">Face the Darkness</button>
+          </div>
+        </div>
+      </main>
+
+      <!-- AI Settings Modal -->
+      <div id="settings-modal" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+          <h3 class="modal-title">⚙ AI Engine Settings</h3>
+          <button class="modal-close" id="settings-close">✕</button>
+
+          <div class="settings-section">
+            <label class="settings-label">AI Mode</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="ai-mode"
+                  value="local"
+                  id="ai-mode-local"
+                  checked
+                />
+                <span class="radio-label"
+                  >🖥 Local Model (runs in browser, no API key needed)</span
+                >
+              </label>
+              <label class="radio-option">
+                <input
+                  type="radio"
+                  name="ai-mode"
+                  value="api"
+                  id="ai-mode-api"
+                />
+                <span class="radio-label"
+                  >☁️ API (OpenAI / Groq / Ollama compatible)</span
+                >
+              </label>
+            </div>
+          </div>
+
+          <div class="settings-section" id="local-model-section">
+            <label class="settings-label" for="local-model-select"
+              >Local Model</label
+            >
+            <select id="local-model-select" class="settings-select">
+              <option value="Phi-3-mini-4k-instruct-q4f16_1-MLC">
+                Phi-3 Mini 4K (recommended, ~2GB)
+              </option>
+              <option value="gemma-2-2b-it-q4f16_1-MLC">
+                Gemma 2 2B (~1.5GB)
+              </option>
+              <option value="SmolLM2-1.7B-Instruct-q4f16_1-MLC">
+                SmolLM2 1.7B (~1GB, fastest)
+              </option>
+            </select>
+            <p class="settings-hint">
+              ⚠ Model will be downloaded to your browser cache on first use.
+            </p>
+          </div>
+
+          <div class="settings-section hidden" id="api-section">
+            <label class="settings-label" for="api-base-url"
+              >API Base URL</label
+            >
+            <input
+              type="text"
+              id="api-base-url"
+              class="settings-input"
+              placeholder="https://api.openai.com/v1"
+            />
+
+            <label class="settings-label" for="api-key-input">API Key</label>
+            <input
+              type="password"
+              id="api-key-input"
+              class="settings-input"
+              placeholder="sk-..."
+            />
+
+            <label class="settings-label" for="api-model-input"
+              >Model Name</label
+            >
+            <input
+              type="text"
+              id="api-model-input"
+              class="settings-input"
+              placeholder="gpt-4o-mini"
+            />
+          </div>
+
+          <div class="settings-section">
+            <label class="settings-label" for="github-pat-input"
+              >GitHub Token (optional, for higher rate limits)</label
+            >
+            <input
+              type="password"
+              id="github-pat-input"
+              class="settings-input"
+              placeholder="ghp_..."
+            />
+            <p class="settings-hint">
+              Without a token: 60 requests/hour. With token: 5,000/hour.
+            </p>
+          </div>
+
+          <button class="btn btn-primary" id="settings-save">
+            Save Settings
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SCREEN: LOADING                                         -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div id="screen-loading" class="screen">
+      <div class="loading-content">
+        <div class="loading-icon" id="loading-icon">⚔</div>
+        <h2 class="loading-title" id="loading-title">
+          Summoning the Chronicles...
+        </h2>
+        <div class="loading-bar-wrap">
+          <div class="loading-bar" id="loading-bar"></div>
+        </div>
+        <p class="loading-fact" id="loading-fact">
+          Fetching commit history from the ancient archives...
+        </p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SCREEN: GAME                                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div id="screen-game" class="screen">
+      <div class="game-bg"></div>
+
+      <!-- Top Bar -->
+      <header class="game-header">
+        <div class="game-header-left">
+          <button
+            id="game-menu-btn"
+            class="btn btn-ghost btn-icon-only"
+            title="Menu"
+          >
+            ☰
+          </button>
+          <div class="repo-info">
+            <span class="repo-name" id="game-repo-name"></span>
+            <span class="style-badge" id="game-style-badge"></span>
+          </div>
+        </div>
+        <div class="game-header-center">
+          <div class="chapter-info">
+            <span class="chapter-label">Chapter</span>
+            <span class="chapter-num" id="chapter-num">1</span>
+          </div>
+        </div>
+        <div class="game-header-right">
+          <div class="music-controls">
+            <button
+              id="music-toggle"
+              class="btn btn-ghost btn-icon-only"
+              title="Toggle Music"
+            >
+              🎵
+            </button>
+            <input
+              type="range"
+              id="music-volume"
+              class="volume-slider"
+              min="0"
+              max="100"
+              value="60"
+              title="Volume"
+            />
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Game Area -->
+      <div class="game-layout">
+        <!-- Story Panel -->
+        <main class="game-story-panel">
+          <div class="story-scene" id="story-scene">
+            <div class="scene-location" id="scene-location"></div>
+            <div class="story-text" id="story-text"></div>
+          </div>
+
+          <!-- Choices -->
+          <div class="choices-panel" id="choices-panel">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Generating indicator -->
+          <div class="generating-indicator hidden" id="generating-indicator">
+            <div class="gen-dots"><span></span><span></span><span></span></div>
+            <span class="gen-text">The oracle weaves your fate...</span>
+          </div>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="game-sidebar">
+          <div class="sidebar-section">
+            <h4 class="sidebar-title">Hero</h4>
+            <div class="hero-info">
+              <div class="hero-avatar" id="hero-avatar">🧙</div>
+              <div class="hero-name" id="hero-name">Adventurer</div>
+            </div>
+            <div class="stat-bar">
+              <span class="stat-label">HP</span>
+              <div class="stat-track">
+                <div
+                  class="stat-fill hp-fill"
+                  id="hp-fill"
+                  style="width: 100%"
+                ></div>
+              </div>
+              <span class="stat-val" id="hp-val">100</span>
+            </div>
+            <div class="stat-bar">
+              <span class="stat-label">XP</span>
+              <div class="stat-track">
+                <div
+                  class="stat-fill xp-fill"
+                  id="xp-fill"
+                  style="width: 0%"
+                ></div>
+              </div>
+              <span class="stat-val" id="xp-val">0</span>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <h4 class="sidebar-title">Inventory</h4>
+            <div class="inventory-list" id="inventory-list">
+              <span class="empty-inventory">Empty</span>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <h4 class="sidebar-title">Quest Log</h4>
+            <div class="quest-log" id="quest-log">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <h4 class="sidebar-title">Commit Lore</h4>
+            <div class="commit-lore" id="commit-lore">
+              <!-- Shows current commit info -->
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Game Menu Overlay -->
+      <div id="game-menu" class="modal hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content game-menu-content">
+          <h3 class="modal-title">⚔ Quest Menu</h3>
+          <button class="modal-close" id="game-menu-close">✕</button>
+          <div class="menu-buttons">
+            <button class="btn btn-primary" id="save-game-btn">
+              💾 Save Quest
+            </button>
+            <button class="btn btn-secondary" id="load-game-btn">
+              📂 Load Quest
+            </button>
+            <button class="btn btn-ghost" id="restart-btn">🔄 Restart</button>
+            <button class="btn btn-ghost" id="change-style-btn">
+              🎭 Change Style
+            </button>
+            <button class="btn btn-ghost" id="new-repo-btn">
+              🏠 New Repository
+            </button>
+          </div>
+          <div class="save-slots" id="save-slots"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="src/js/app.js"></script>
+  </body>
+</html>
