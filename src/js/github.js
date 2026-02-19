@@ -1,9 +1,26 @@
-/**
- * GitQuest — github.js
- * GitHub API integration: fetch commits, parse repo info
- */
+import { storage } from './storage.js';
 
 const GITHUB_API = 'https://api.github.com';
+
+// Rate limit state tracking
+let rateLimit = {
+  remaining: null,
+  reset: null,
+};
+
+export function getRateLimitStatus() {
+  return { ...rateLimit };
+}
+
+function updateRateLimitFromHeaders(headers) {
+  const remaining = headers.get('X-RateLimit-Remaining');
+  const reset = headers.get('X-RateLimit-Reset');
+  if (remaining !== null) rateLimit.remaining = parseInt(remaining, 10);
+  if (reset !== null) rateLimit.reset = parseInt(reset, 10);
+  
+  // Trigger event for UI update
+  window.dispatchEvent(new CustomEvent('github-ratelimit-update', { detail: rateLimit }));
+}
 
 // Popular repos to show on landing page
 export const POPULAR_REPOS = [
@@ -42,20 +59,33 @@ export function parseRepoInput(input) {
  * Fetch repo metadata
  */
 export async function fetchRepoInfo(owner, repo, token = null) {
+  const cacheKey = `repo:${owner}/${repo}`;
+  const cached = storage.getCache(cacheKey);
+  if (cached) return cached;
+
   const headers = buildHeaders(token);
   const res = await fetch(`${GITHUB_API}/repos/${owner}/${repo}`, { headers });
+  
+  updateRateLimitFromHeaders(res.headers);
+
   if (!res.ok) {
     if (res.status === 404) throw new Error(`Repository "${owner}/${repo}" not found.`);
     if (res.status === 403) throw new Error('GitHub API rate limit exceeded. Add a GitHub token in settings.');
     throw new Error(`GitHub API error: ${res.status}`);
   }
-  return res.json();
+  const data = await res.json();
+  storage.setCache(cacheKey, data);
+  return data;
 }
 
 /**
  * Fetch commit history (up to maxCommits, paginated)
  */
 export async function fetchCommits(owner, repo, token = null, maxCommits = 100) {
+  const cacheKey = `commits:${owner}/${repo}:${maxCommits}`;
+  const cached = storage.getCache(cacheKey);
+  if (cached) return cached.map(c => ({ ...c, date: new Date(c.timestamp) }));
+
   const headers = buildHeaders(token);
   const perPage = Math.min(maxCommits, 100);
   const pages = Math.ceil(maxCommits / perPage);
@@ -64,6 +94,8 @@ export async function fetchCommits(owner, repo, token = null, maxCommits = 100) 
   for (let page = 1; page <= pages; page++) {
     const url = `${GITHUB_API}/repos/${owner}/${repo}/commits?per_page=${perPage}&page=${page}`;
     const res = await fetch(url, { headers });
+
+    updateRateLimitFromHeaders(res.headers);
 
     if (!res.ok) {
       if (res.status === 409) break; // Empty repo
@@ -78,7 +110,9 @@ export async function fetchCommits(owner, repo, token = null, maxCommits = 100) 
     if (data.length < perPage) break; // Last page
   }
 
-  return commits.map(parseCommit);
+  const parsedCommits = commits.map(parseCommit);
+  storage.setCache(cacheKey, parsedCommits);
+  return parsedCommits;
 }
 
 /**
@@ -165,6 +199,6 @@ export function analyzeCommits(commits) {
 
 function buildHeaders(token) {
   const headers = { 'Accept': 'application/vnd.github.v3+json' };
-  if (token) headers['Authorization'] = `Bearer ${token}`;
+  if (token) headers['Authorization'] = `Bearer ${token.trim()}`;
   return headers;
 }

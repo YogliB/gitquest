@@ -79,7 +79,12 @@
       <footer class="landing-footer">
         <p>No backend. No tracking. All magic happens in your browser.</p>
         <div class="footer-links">
-          <a href="https://github.com/YogliB/gitquest" target="_blank" rel="noopener noreferrer" class="footer-link">
+          <a
+            href="https://github.com/YogliB/gitquest"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="footer-link"
+          >
             <span class="link-icon">github</span> repository
           </a>
           <span class="footer-divider">|</span>
@@ -255,9 +260,16 @@
           </div>
 
           <div class="settings-section">
-            <label class="settings-label" for="github-pat-input"
-              >GitHub Token (optional, for higher rate limits)</label
-            >
+            <label class="settings-label" for="github-pat-input">
+              GitHub Token
+              <a
+                href="https://github.com/settings/tokens?type=beta"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="settings-link-hint"
+                >(Get token here)</a
+              >
+            </label>
             <input
               type="password"
               id="github-pat-input"
@@ -267,6 +279,12 @@
             <p class="settings-hint">
               Without a token: 60 requests/hour. With token: 5,000/hour.
             </p>
+            <div id="ratelimit-status" class="ratelimit-status hidden">
+              Current Rate Limit: <span id="ratelimit-val">--</span> /
+              <span id="ratelimit-total">--</span> <br /><small
+                id="ratelimit-reset"
+              ></small>
+            </div>
           </div>
 
           <button class="btn btn-primary" id="settings-save">

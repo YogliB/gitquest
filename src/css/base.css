@@ -528,6 +528,7 @@ a {
   position: relative;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1055,8 +1056,7 @@ a {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
 }
-.sidebar-section {
-}
+/* .sidebar-section removed empty */
 .sidebar-title {
   font-family: var(--font-title);
   font-size: 0.7rem;
@@ -1139,7 +1139,6 @@ a {
   font-size: 0.75rem;
   color: var(--color-text);
   cursor: default;
-  title: attr(data-desc);
 }
 
 .quest-log {
@@ -1230,5 +1229,78 @@ a {
   }
   .repos-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+/* ─── Rate Limit UI ─── */
+.ratelimit-status {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+}
+
+.settings-link-hint {
+  font-size: 0.75rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+
+.settings-link-hint:hover {
+  text-decoration: underline;
+}
+
+.rate-limit-warning-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #2d1b00;
+  border-left: 4px solid #ff9800;
+  color: #ffe0b2;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  max-width: 320px;
+  animation: slideInRight 0.3s ease-out;
+}
+
+.warning-content {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.warning-icon {
+  font-size: 1.5rem;
+}
+
+.warning-text p {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.warning-close {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.2rem;
+  opacity: 0.5;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }

@@ -14,7 +14,9 @@ import {
   renderChoices, updateStats, updateQuestLog, updateCommitLore,
   setLoadingProgress, initParticles, renderRepoGrid, renderSaveSlots,
   showError, hideError, initKeyboardShortcuts,
+  updateRateLimitUI, showRateLimitWarning
 } from './ui.js';
+import { getRateLimitStatus } from './github.js';
 
 // ─── App State ─────────────────────────────────────────────────────────────
 
@@ -122,6 +124,12 @@ async function init() {
 
   // Load settings into UI
   loadSettingsIntoUI();
+
+  // Rate limit listener
+  window.addEventListener('github-ratelimit-update', (e) => {
+    updateRateLimitUI(e.detail);
+    showRateLimitWarning(e.detail.remaining);
+  });
 
   // ─── URL-based routing ──────────────────────────────────────────────────
   handleURLRouting();
@@ -418,6 +426,8 @@ function updateMusicButton(isPlaying) {
 // ─── Settings ──────────────────────────────────────────────────────────────
 
 function openSettings() {
+  const status = getRateLimitStatus();
+  updateRateLimitUI(status);
   document.getElementById('settings-modal').classList.remove('hidden');
 }
 

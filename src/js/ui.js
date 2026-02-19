@@ -306,6 +306,60 @@ export function hideError(elementId) {
   if (el) el.classList.add('hidden');
 }
 
+// ─── Rate Limit UI ─────────────────────────────────────────────────────────
+
+export function updateRateLimitUI(status) {
+  const statusEl = document.getElementById('ratelimit-status');
+  const valEl = document.getElementById('ratelimit-val');
+  const totalEl = document.getElementById('ratelimit-total');
+  const resetEl = document.getElementById('ratelimit-reset');
+
+  if (!statusEl || status.remaining === null) return;
+
+  statusEl.classList.remove('hidden');
+  valEl.textContent = status.remaining;
+  totalEl.textContent = status.remaining > 60 ? '5000' : '60'; // Heuristic
+  
+  if (status.reset) {
+    const resetDate = new Date(status.reset * 1000);
+    resetEl.textContent = `Resets at ${resetDate.toLocaleTimeString()}`;
+  }
+}
+
+let warningEl = null;
+
+export function showRateLimitWarning(remaining) {
+  if (remaining > 1) {
+    if (warningEl) {
+      warningEl.remove();
+      warningEl = null;
+    }
+    return;
+  }
+
+  if (warningEl) return; // Already showing
+
+  warningEl = document.createElement('div');
+  warningEl.className = 'rate-limit-warning-toast';
+  warningEl.innerHTML = `
+    <div class="warning-content">
+      <span class="warning-icon">⚠️</span>
+      <div class="warning-text">
+        <strong>GitHub Rate Limit Low</strong>
+        <p>1 request remaining. Add a PAT in settings to continue playing without interruption.</p>
+      </div>
+      <button class="warning-close">✕</button>
+    </div>
+  `;
+
+  document.body.appendChild(warningEl);
+
+  warningEl.querySelector('.warning-close').addEventListener('click', () => {
+    warningEl.remove();
+    warningEl = null;
+  });
+}
+
 // ─── Keyboard shortcuts ────────────────────────────────────────────────────
 
 export function initKeyboardShortcuts(onChoice) {
