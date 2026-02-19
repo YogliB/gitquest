@@ -94,24 +94,69 @@ export function skipTypewriter(element, text) {
 
 export function renderChoices(container, choices, onChoice) {
   container.innerHTML = '';
+  
+  // Render the 3 AI choices
   choices.forEach((choice, i) => {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
-    btn.innerHTML = `<span class="choice-num">${choice.label}.</span><span class="choice-text">${choice.text}</span>`;
+    // Display 1, 2, 3...
+    btn.innerHTML = `<span class="choice-num">${i + 1}.</span><span class="choice-text">${choice.text}</span>`;
+    
     btn.addEventListener('click', () => {
-      // Disable all choices immediately
-      container.querySelectorAll('.choice-btn').forEach(b => {
-        b.disabled = true;
-        b.style.opacity = '0.5';
-      });
+      disableAllChoices(container);
       btn.style.opacity = '1';
       btn.style.borderColor = 'var(--color-accent)';
-      onChoice(i, choice);
+      onChoice(i); // Pass index
     });
-    // Keyboard shortcut: A, B, C
-    btn.dataset.key = choice.label.toLowerCase();
+    
+    // Keyboard shortcut: 1, 2, 3 or A, B, C mapped to position
+    btn.dataset.key = (i + 1).toString(); 
     container.appendChild(btn);
   });
+
+  // Render 4th Custom Choice Input
+  const customContainer = document.createElement('div');
+  customContainer.className = 'choice-custom-container';
+  customContainer.innerHTML = `
+    <div class="choice-input-wrapper">
+      <span class="choice-num">4.</span>
+      <input type="text" id="custom-choice-input" placeholder="Type your own action..." maxlength="80">
+      <button id="custom-choice-submit" disabled>></button>
+    </div>
+  `;
+  container.appendChild(customContainer);
+
+  const input = customContainer.querySelector('#custom-choice-input');
+  const submit = customContainer.querySelector('#custom-choice-submit');
+
+  input.addEventListener('input', () => {
+    submit.disabled = !input.value.trim();
+  });
+
+  const submitCustomHandler = () => {
+    const text = input.value.trim();
+    if (!text) return;
+    disableAllChoices(container);
+    // Visual feedback
+    customContainer.classList.add('selected');
+    onChoice(text); // Pass string
+  };
+
+  submit.addEventListener('click', submitCustomHandler);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') submitCustomHandler();
+  });
+}
+
+function disableAllChoices(container) {
+  container.querySelectorAll('.choice-btn').forEach(b => {
+    b.disabled = true;
+    b.style.opacity = '0.5';
+  });
+  const input = container.querySelector('#custom-choice-input');
+  const submit = container.querySelector('#custom-choice-submit');
+  if (input) input.disabled = true;
+  if (submit) submit.disabled = true;
 }
 
 // ─── Stats Update ──────────────────────────────────────────────────────────
@@ -265,9 +310,15 @@ export function hideError(elementId) {
 
 export function initKeyboardShortcuts(onChoice) {
   document.addEventListener('keydown', e => {
-    if (['a', 'b', 'c'].includes(e.key.toLowerCase())) {
-      const btn = document.querySelector(`.choice-btn[data-key="${e.key.toLowerCase()}"]`);
+    // 1, 2, 3 keys
+    if (['1', '2', '3'].includes(e.key)) {
+      const btn = document.querySelector(`.choice-btn[data-key="${e.key}"]`);
       if (btn && !btn.disabled) btn.click();
+    }
+    // Focus input on 4
+    if (e.key === '4') {
+      const input = document.getElementById('custom-choice-input');
+      if (input && !input.disabled) input.focus();
     }
     // Space/Enter to skip typewriter
     if (e.key === ' ' || e.key === 'Enter') {

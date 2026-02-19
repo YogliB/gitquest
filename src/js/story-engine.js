@@ -81,12 +81,22 @@ class StoryEngine {
   /**
    * Player makes a choice
    */
-  async makeChoice(choiceIndex) {
+  /**
+   * Player makes a choice
+   * @param {number|string} choiceInput - Index of choice OR custom text string
+   */
+  async makeChoice(choiceInput) {
     if (!this.state || this.generating) return;
     const scene = this.state.currentScene;
-    if (!scene || !scene.choices[choiceIndex]) return;
-
-    const choice = scene.choices[choiceIndex];
+    
+    let choice;
+    if (typeof choiceInput === 'number') {
+      if (!scene || !scene.choices[choiceInput]) return;
+      choice = scene.choices[choiceInput];
+    } else {
+      // Custom text input
+      choice = { label: 'Player', text: choiceInput };
+    }
 
     // Record history
     this.state.history.push({
@@ -96,7 +106,7 @@ class StoryEngine {
     });
 
     // Apply choice consequences
-    this.applyChoiceConsequences(choice, choiceIndex);
+    this.applyChoiceConsequences(choice);
 
     // Advance to next commit
     this.state.commitIndex = Math.min(
@@ -123,7 +133,10 @@ class StoryEngine {
   /**
    * Apply stat changes based on choice
    */
-  applyChoiceConsequences(choice, index) {
+  /**
+   * Apply stat changes based on choice
+   */
+  applyChoiceConsequences(choice) {
     const { style } = this.state;
     const commit = this.state.commits[this.state.commitIndex];
 
@@ -143,8 +156,13 @@ class StoryEngine {
     // HP changes based on commit type
     const msg = commit?.subject?.toLowerCase() || '';
     if (/fix|bug|patch/.test(msg)) {
-      // Risky choice (index 0 = bold) costs HP, safe choice gains
-      const hpDelta = index === 0 ? -10 : index === 2 ? 5 : 0;
+      // Risky choice (label A) costs HP, safe choice (label C) gains
+      // Custom choices (label 'Player') have neutral effect or random slight variance
+      let hpDelta = 0;
+      if (choice.label === 'A') hpDelta = -10;
+      else if (choice.label === 'C') hpDelta = 5;
+      else if (choice.label === 'Player') hpDelta = Math.random() > 0.5 ? -5 : 5; // Random outcome for custom
+      
       this.state.hp = Math.max(1, Math.min(this.state.maxHp, this.state.hp + hpDelta));
     }
 
@@ -217,6 +235,16 @@ class StoryEngine {
       }
 
       this.state.currentScene = scene;
+      
+      // Shuffle choices so they aren't always in A, B, C order
+      if (this.state.currentScene.choices && this.state.currentScene.choices.length) {
+         for (let i = this.state.currentScene.choices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.state.currentScene.choices[i], this.state.currentScene.choices[j]] = 
+            [this.state.currentScene.choices[j], this.state.currentScene.choices[i]];
+         }
+      }
+
       if (this.onSceneReady) this.onSceneReady(scene, this.state.commits[this.state.commitIndex]);
     } finally {
       this.generating = false;
