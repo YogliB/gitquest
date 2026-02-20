@@ -2,11 +2,11 @@
    GitQuest — Horror Theme
    Blood red, near-black, distressed, flickering
 ═══════════════════════════════════════════════════════════ */
-body.theme-horror {
-  --font-title: 'Creepster', cursive;
-  --font-body: 'Special Elite', serif;
-  --font-mono: 'Special Elite', serif;
-  --font-ui: 'Special Elite', serif;
+.theme-horror {
+  --font-title: "Creepster", cursive;
+  --font-body: "Special Elite", serif;
+  --font-mono: "Special Elite", serif;
+  --font-ui: "Special Elite", serif;
 
   --color-bg: #050205;
   --color-surface: #0d060d;
@@ -26,18 +26,22 @@ body.theme-horror {
 }
 
 /* Vignette overlay */
-body.theme-horror::before {
-  content: '';
+.theme-horror::before {
+  content: "";
   position: fixed;
   inset: 0;
   z-index: 9998;
-  background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%);
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
   pointer-events: none;
 }
 
 /* Subtle noise texture */
-body.theme-horror::after {
-  content: '';
+.theme-horror::after {
+  content: "";
   position: fixed;
   inset: 0;
   z-index: 9997;
@@ -46,71 +50,92 @@ body.theme-horror::after {
 }
 
 /* Flickering logo */
-body.theme-horror .logo-text {
-  text-shadow: 0 0 10px #cc1a1a, 0 0 30px rgba(204,26,26,0.4);
+.theme-horror .logo-text {
+  text-shadow: 0 0 10px #cc1a1a, 0 0 30px rgba(204, 26, 26, 0.4);
   animation: text-flicker 8s ease-in-out infinite;
 }
 @keyframes text-flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    text-shadow: 0 0 10px #cc1a1a, 0 0 30px rgba(204,26,26,0.4);
+  0%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    text-shadow: 0 0 10px #cc1a1a, 0 0 30px rgba(204, 26, 26, 0.4);
     opacity: 1;
   }
-  20%, 24%, 55% {
+  20%,
+  24%,
+  55% {
     text-shadow: none;
     opacity: 0.85;
   }
 }
 
 /* Logo icon flicker */
-body.theme-horror .logo-icon {
+.theme-horror .logo-icon {
   animation: icon-flicker 4s ease-in-out infinite;
 }
 @keyframes icon-flicker {
-  0%, 97%, 100% { filter: drop-shadow(0 0 10px #cc1a1a); opacity: 1; }
-  98% { filter: none; opacity: 0.6; }
-  99% { filter: drop-shadow(0 0 20px #cc1a1a); opacity: 1; }
+  0%,
+  97%,
+  100% {
+    filter: drop-shadow(0 0 10px #cc1a1a);
+    opacity: 1;
+  }
+  98% {
+    filter: none;
+    opacity: 0.6;
+  }
+  99% {
+    filter: drop-shadow(0 0 20px #cc1a1a);
+    opacity: 1;
+  }
 }
 
 /* Horror card highlight */
-body.theme-horror .style-card[data-style="horror"] {
+.theme-horror .style-card[data-style="horror"] {
   border-color: #cc1a1a;
-  box-shadow: 0 0 0 1px rgba(204,26,26,0.2), inset 0 0 40px rgba(204,26,26,0.04);
+  box-shadow: 0 0 0 1px rgba(204, 26, 26, 0.2),
+    inset 0 0 40px rgba(204, 26, 26, 0.04);
 }
-body.theme-horror .style-card[data-style="horror"] .style-card-glow {
-  background: linear-gradient(135deg, rgba(204,26,26,0.12), transparent 60%);
-  border: 1px solid rgba(204,26,26,0.3);
+.theme-horror .style-card[data-style="horror"] .style-card-glow {
+  background: linear-gradient(135deg, rgba(204, 26, 26, 0.12), transparent 60%);
+  border: 1px solid rgba(204, 26, 26, 0.3);
 }
 
 /* Blood drip on scene location */
-body.theme-horror .scene-location {
+.theme-horror .scene-location {
   color: #cc1a1a;
-  font-family: 'Creepster', cursive;
+  font-family: "Creepster", cursive;
   font-size: 1rem;
   letter-spacing: 0.15em;
 }
 
 /* Story text in horror */
-body.theme-horror .story-text {
-  font-family: 'Special Elite', serif;
+.theme-horror .story-text {
+  font-family: "Special Elite", serif;
   font-size: 1rem;
   line-height: 2;
   color: #c8a8b0;
 }
 
 /* Choice buttons as scratched notes */
-body.theme-horror .choice-btn {
-  font-family: 'Special Elite', serif;
+.theme-horror .choice-btn {
+  font-family: "Special Elite", serif;
   border-radius: 0;
   border-color: #3a1020;
   position: relative;
 }
-body.theme-horror .choice-btn:hover {
+.theme-horror .choice-btn:hover {
   border-color: #cc1a1a;
-  box-shadow: -4px 0 0 #cc1a1a, inset 0 0 20px rgba(204,26,26,0.05);
+  box-shadow: -4px 0 0 #cc1a1a, inset 0 0 20px rgba(204, 26, 26, 0.05);
 }
 
 /* Particles as blood drops */
-body.theme-horror .particle {
+.theme-horror .particle {
   background: radial-gradient(circle, #cc1a1a, #8b0000);
   width: 3px;
   height: 3px;
@@ -119,55 +144,66 @@ body.theme-horror .particle {
 }
 
 /* Loading icon */
-body.theme-horror .loading-icon {
+.theme-horror .loading-icon {
   animation: horror-pulse 2s ease-in-out infinite;
 }
 @keyframes horror-pulse {
-  0%, 100% { filter: drop-shadow(0 0 8px #cc1a1a); transform: scale(1); }
-  50% { filter: drop-shadow(0 0 25px #cc1a1a) drop-shadow(0 0 50px rgba(204,26,26,0.3)); transform: scale(1.08); }
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px #cc1a1a);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 25px #cc1a1a)
+      drop-shadow(0 0 50px rgba(204, 26, 26, 0.3));
+    transform: scale(1.08);
+  }
 }
 
 /* Buttons */
-body.theme-horror .btn-primary {
+.theme-horror .btn-primary {
   background: linear-gradient(135deg, #8b0000, #cc1a1a);
   color: #e8c8d0;
-  box-shadow: 0 4px 20px rgba(204,26,26,0.3);
+  box-shadow: 0 4px 20px rgba(204, 26, 26, 0.3);
 }
-body.theme-horror .btn-primary:hover {
-  box-shadow: 0 8px 30px rgba(204,26,26,0.5);
+.theme-horror .btn-primary:hover {
+  box-shadow: 0 8px 30px rgba(204, 26, 26, 0.5);
 }
 
 /* URL input */
-body.theme-horror .url-input-wrap:focus-within {
+.theme-horror .url-input-wrap:focus-within {
   border-color: #cc1a1a;
-  box-shadow: 0 0 0 2px rgba(204,26,26,0.15);
+  box-shadow: 0 0 0 2px rgba(204, 26, 26, 0.15);
 }
 
 /* Generating indicator */
-body.theme-horror .gen-dots span {
+.theme-horror .gen-dots span {
   background: #cc1a1a;
 }
 
 /* Horror background */
-body.theme-horror .landing-bg,
-body.theme-horror .style-bg,
-body.theme-horror .game-bg {
-  background:
-    radial-gradient(ellipse at 50% 100%, rgba(139,0,0,0.15), transparent 60%),
-    radial-gradient(ellipse at 50% 0%, rgba(50,0,50,0.1), transparent 50%),
+.theme-horror .landing-bg,
+.theme-horror .style-bg,
+.theme-horror .game-bg {
+  background: radial-gradient(
+      ellipse at 50% 100%,
+      rgba(139, 0, 0, 0.15),
+      transparent 60%
+    ),
+    radial-gradient(ellipse at 50% 0%, rgba(50, 0, 50, 0.1), transparent 50%),
     #050205;
 }
 
 /* Sidebar */
-body.theme-horror .game-sidebar {
-  background: rgba(13,6,13,0.98);
+.theme-horror .game-sidebar {
+  background: rgba(13, 6, 13, 0.98);
 }
 
 /* Stat bars */
-body.theme-horror .hp-fill {
+.theme-horror .hp-fill {
   background: linear-gradient(90deg, #4a0000, #cc1a1a);
-  box-shadow: 0 0 8px rgba(204,26,26,0.5);
+  box-shadow: 0 0 8px rgba(204, 26, 26, 0.5);
 }
-body.theme-horror .xp-fill {
+.theme-horror .xp-fill {
   background: linear-gradient(90deg, #2a004a, #6b006b);
 }

@@ -2,11 +2,11 @@
    GitQuest — Sci-Fi Theme
    Holographic, neon cyan/purple, cyberpunk
 ═══════════════════════════════════════════════════════════ */
-body.theme-scifi {
-  --font-title: 'Orbitron', sans-serif;
-  --font-body: 'Share Tech Mono', monospace;
-  --font-mono: 'Share Tech Mono', monospace;
-  --font-ui: 'Orbitron', sans-serif;
+.theme-scifi {
+  --font-title: "Orbitron", sans-serif;
+  --font-body: "Share Tech Mono", monospace;
+  --font-mono: "Share Tech Mono", monospace;
+  --font-ui: "Orbitron", sans-serif;
 
   --color-bg: #020810;
   --color-surface: #060f1a;
@@ -26,8 +26,8 @@ body.theme-scifi {
 }
 
 /* Scanline overlay */
-body.theme-scifi::before {
-  content: '';
+.theme-scifi::before {
+  content: "";
   position: fixed;
   inset: 0;
   z-index: 9999;
@@ -42,86 +42,118 @@ body.theme-scifi::before {
 }
 
 /* Holographic grid background */
-body.theme-scifi .landing-bg,
-body.theme-scifi .style-bg,
-body.theme-scifi .game-bg {
-  background:
-    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px),
-    radial-gradient(ellipse at 50% 50%, rgba(0,212,255,0.06), transparent 70%),
+.theme-scifi .landing-bg,
+.theme-scifi .style-bg,
+.theme-scifi .game-bg {
+  background: linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(0, 212, 255, 0.06),
+      transparent 70%
+    ),
     #020810;
   background-size: 40px 40px, 40px 40px, 100% 100%;
 }
 
 /* Neon glow on logo */
-body.theme-scifi .logo-text {
-  text-shadow: 0 0 10px #00d4ff, 0 0 30px rgba(0,212,255,0.5), 0 0 60px rgba(0,212,255,0.2);
+.theme-scifi .logo-text {
+  text-shadow: 0 0 10px #00d4ff, 0 0 30px rgba(0, 212, 255, 0.5),
+    0 0 60px rgba(0, 212, 255, 0.2);
   letter-spacing: 0.15em;
 }
 
 /* Glitch animation on logo icon */
-body.theme-scifi .logo-icon {
+.theme-scifi .logo-icon {
   animation: glitch-pulse 3s ease-in-out infinite;
 }
 @keyframes glitch-pulse {
-  0%, 90%, 100% { filter: drop-shadow(0 0 10px #00d4ff); transform: none; }
-  92% { filter: drop-shadow(0 0 20px #00d4ff) drop-shadow(2px 0 0 #ff3a6e); transform: translateX(2px); }
-  94% { filter: drop-shadow(0 0 20px #00d4ff) drop-shadow(-2px 0 0 #9b30ff); transform: translateX(-2px); }
-  96% { filter: drop-shadow(0 0 30px #00d4ff); transform: none; }
+  0%,
+  90%,
+  100% {
+    filter: drop-shadow(0 0 10px #00d4ff);
+    transform: none;
+  }
+  92% {
+    filter: drop-shadow(0 0 20px #00d4ff) drop-shadow(2px 0 0 #ff3a6e);
+    transform: translateX(2px);
+  }
+  94% {
+    filter: drop-shadow(0 0 20px #00d4ff) drop-shadow(-2px 0 0 #9b30ff);
+    transform: translateX(-2px);
+  }
+  96% {
+    filter: drop-shadow(0 0 30px #00d4ff);
+    transform: none;
+  }
 }
 
 /* Scifi card highlight */
-body.theme-scifi .style-card[data-style="scifi"] {
+.theme-scifi .style-card[data-style="scifi"] {
   border-color: #00d4ff;
-  box-shadow: 0 0 0 1px rgba(0,212,255,0.2), inset 0 0 40px rgba(0,212,255,0.04);
+  box-shadow: 0 0 0 1px rgba(0, 212, 255, 0.2),
+    inset 0 0 40px rgba(0, 212, 255, 0.04);
 }
-body.theme-scifi .style-card[data-style="scifi"] .style-card-glow {
-  background: linear-gradient(135deg, rgba(0,212,255,0.12), transparent 60%);
-  border: 1px solid rgba(0,212,255,0.3);
+.theme-scifi .style-card[data-style="scifi"] .style-card-glow {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.12), transparent 60%);
+  border: 1px solid rgba(0, 212, 255, 0.3);
 }
 
 /* Terminal-style story text */
-body.theme-scifi .story-text {
-  font-family: 'Share Tech Mono', monospace;
+.theme-scifi .story-text {
+  font-family: "Share Tech Mono", monospace;
   font-size: 0.95rem;
   line-height: 2;
 }
 
 /* Typewriter cursor */
-body.theme-scifi .story-text::after {
-  content: '▊';
+.theme-scifi .story-text::after {
+  content: "▊";
   color: #00d4ff;
   animation: blink-cursor 1s step-end infinite;
 }
 @keyframes blink-cursor {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* Choice buttons as command inputs */
-body.theme-scifi .choice-btn {
-  font-family: 'Share Tech Mono', monospace;
+.theme-scifi .choice-btn {
+  font-family: "Share Tech Mono", monospace;
   border-radius: 2px;
   border-color: #0d3a5c;
 }
-body.theme-scifi .choice-btn::before {
-  content: '> ';
+.theme-scifi .choice-btn::before {
+  content: "> ";
   color: #00d4ff;
   font-weight: bold;
 }
-body.theme-scifi .choice-num { display: none; }
+.theme-scifi .choice-num {
+  display: none;
+}
 
 /* Loading spinner as rotating ring */
-body.theme-scifi .loading-icon {
+.theme-scifi .loading-icon {
   animation: rotate-ring 2s linear infinite;
 }
 @keyframes rotate-ring {
-  from { transform: rotate(0deg); filter: drop-shadow(0 0 15px #00d4ff); }
-  to { transform: rotate(360deg); filter: drop-shadow(0 0 25px #00d4ff); }
+  from {
+    transform: rotate(0deg);
+    filter: drop-shadow(0 0 15px #00d4ff);
+  }
+  to {
+    transform: rotate(360deg);
+    filter: drop-shadow(0 0 25px #00d4ff);
+  }
 }
 
 /* Particles as data streams */
-body.theme-scifi .particle {
+.theme-scifi .particle {
   background: linear-gradient(180deg, #00d4ff, transparent);
   width: 1px;
   height: 20px;
@@ -129,26 +161,26 @@ body.theme-scifi .particle {
 }
 
 /* Accent on buttons */
-body.theme-scifi .btn-primary {
+.theme-scifi .btn-primary {
   background: linear-gradient(135deg, #00d4ff, #0090bb);
   color: #020810;
-  box-shadow: 0 4px 20px rgba(0,212,255,0.3);
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
 }
-body.theme-scifi .btn-primary:hover {
-  box-shadow: 0 8px 30px rgba(0,212,255,0.5);
+.theme-scifi .btn-primary:hover {
+  box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5);
 }
 
 /* URL input */
-body.theme-scifi .url-input-wrap {
+.theme-scifi .url-input-wrap {
   border-radius: 2px;
   border-color: #0d3a5c;
 }
-body.theme-scifi .url-input-wrap:focus-within {
+.theme-scifi .url-input-wrap:focus-within {
   border-color: #00d4ff;
-  box-shadow: 0 0 0 2px rgba(0,212,255,0.15), 0 0 20px rgba(0,212,255,0.1);
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.15), 0 0 20px rgba(0, 212, 255, 0.1);
 }
 
 /* Sidebar */
-body.theme-scifi .game-sidebar {
-  background: rgba(6,15,26,0.95);
+.theme-scifi .game-sidebar {
+  background: rgba(6, 15, 26, 0.95);
 }
