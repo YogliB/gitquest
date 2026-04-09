@@ -188,32 +188,19 @@ export function PlayerPage() {
 
         {analysis && (
           <div className={styles.stats}>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>BPM</span>
-              <span className={styles.statValue}>{analysis.music.bpm}</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Voices</span>
-              <span className={styles.statValue}>{analysis.music.voices}</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Mode</span>
-              <span className={styles.statValue}>{analysis.music.mode}</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Energy</span>
-              <span className={styles.statValue}>{Math.round(analysis.music.energy * 100)}%</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Complexity</span>
-              <span className={styles.statValue}>
-                {Math.round(analysis.music.complexity * 100)}%
-              </span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statLabel}>Authors</span>
-              <span className={styles.statValue}>{analysis.authorCount}</span>
-            </div>
+            {[
+              { label: "BPM", value: analysis.music.bpm },
+              { label: "Voices", value: analysis.music.voices },
+              { label: "Mode", value: analysis.music.mode },
+              { label: "Energy", value: `${Math.round(analysis.music.energy * 100)}%` },
+              { label: "Complexity", value: `${Math.round(analysis.music.complexity * 100)}%` },
+              { label: "Authors", value: analysis.authorCount },
+            ].map(({ label, value }) => (
+              <div key={label} className={styles.stat}>
+                <span className={styles.statLabel}>{label}</span>
+                <span className={styles.statValue}>{value}</span>
+              </div>
+            ))}
           </div>
         )}
       </main>

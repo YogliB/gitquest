@@ -1,0 +1,7 @@
+{
+  "threshold": 0,
+  "minTokens": 50,
+  "path": ["src"],
+  "ignore": ["**/*.css.ts"],
+  "reporters": ["consoleFull"]
+}
