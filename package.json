@@ -11,7 +11,7 @@
   "keywords": ["git", "game", "rpg", "text-adventure"],
   "license": "MIT",
   "overrides": {
-    "vite": "npm:@voidzero-dev/vite-plus-core@latest"
+    "vite": "^8"
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.16.0",
@@ -28,6 +28,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "@voidzero-dev/vite-plus-core": "latest",
     "typescript": "^5.6.0",
+    "vite": "^8",
     "vite-plus": "0.1.15"
   }
 }
