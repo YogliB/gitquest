@@ -18,6 +18,6 @@ export default defineConfig({
     ignorePatterns: ["CLAUDE.md"],
   },
   staged: {
-    "*.{ts,tsx,js,jsx}": "vp check --fix",
+    "*": "vp check --fix --ignore-unknown",
   },
 });
