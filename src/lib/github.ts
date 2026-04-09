@@ -5,10 +5,6 @@ const GITHUB_API = "https://api.github.com";
 
 let rateLimit: RateLimitStatus = { remaining: null, reset: null };
 
-function getRateLimitStatus(): RateLimitStatus {
-  return { ...rateLimit };
-}
-
 function updateRateLimitFromHeaders(headers: Headers) {
   const remaining = headers.get("X-RateLimit-Remaining");
   const reset = headers.get("X-RateLimit-Reset");
@@ -99,27 +95,6 @@ export function parseRepoInput(input: string): { owner: string; repo: string } |
   const shortMatch = input.match(/^([^/]+)\/([^/]+)$/);
   if (shortMatch) return { owner: shortMatch[1], repo: shortMatch[2] };
   return null;
-}
-
-async function fetchRepoInfo(owner: string, repo: string, token: string | null = null) {
-  const cacheKey = `repo:${owner}/${repo}`;
-  const cached = storage.getCache(cacheKey);
-  if (cached) return cached;
-
-  const headers = buildHeaders(token);
-  const res = await fetch(`${GITHUB_API}/repos/${owner}/${repo}`, { headers });
-  updateRateLimitFromHeaders(res.headers);
-
-  if (!res.ok) {
-    if (res.status === 404) throw new Error(`Repository "${owner}/${repo}" not found.`);
-    if (res.status === 403)
-      throw new Error("GitHub API rate limit exceeded. Add a GitHub token in settings.");
-    throw new Error(`GitHub API error: ${res.status}`);
-  }
-
-  const data = await res.json();
-  storage.setCache(cacheKey, data);
-  return data;
 }
 
 export async function fetchCommits(

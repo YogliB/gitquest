@@ -12,22 +12,6 @@ export const floatParticle = keyframes({
   "100%": { transform: "translateY(-100vh) translateX(20px)", opacity: "0" },
 });
 
-const spinPulse = keyframes({
-  "0%": { transform: "rotate(0deg) scale(1)" },
-  "50%": { transform: "rotate(180deg) scale(1.1)" },
-  "100%": { transform: "rotate(360deg) scale(1)" },
-});
-
-const dotBounce = keyframes({
-  "0%, 80%, 100%": { transform: "scale(0)", opacity: "0" },
-  "40%": { transform: "scale(1)", opacity: "1" },
-});
-
-const slideInRight = keyframes({
-  from: { transform: "translateX(100%)", opacity: "0" },
-  to: { transform: "translateX(0)", opacity: "1" },
-});
-
 // D&D specific
 export const candleFlicker = keyframes({
   "0%, 100%": { filter: "drop-shadow(0 0 6px #c8922a)", transform: "scale(1)" },
