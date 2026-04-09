@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "vp dev",
     "build": "vp build",
-    "preview": "vp preview"
+    "preview": "vp preview",
+    "prepare": "vp config"
   },
   "dependencies": {
     "@vanilla-extract/css": "^1.16.0",

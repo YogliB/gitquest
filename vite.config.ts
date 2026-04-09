@@ -14,4 +14,7 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
+  staged: {
+    "*.{ts,tsx,js,jsx}": "vp check --fix",
+  },
 });
