@@ -18,12 +18,6 @@ export interface Commit {
   stats: { additions: number; deletions: number; total: number } | null;
 }
 
-export interface Scene {
-  narrative: string;
-  choices: Array<{ label: string; text: string }>;
-  isEpilogue?: boolean;
-}
-
 export interface MusicParams {
   bpm: number;
   voices: number;
@@ -47,45 +41,7 @@ export interface Analysis {
   music: MusicParams;
 }
 
-export interface QuestEntry {
-  text: string;
-  chapter: number;
-}
-
-export interface GameState {
-  repo: { owner: string; repo: string };
-  style: Style;
-  commits: Commit[];
-  analysis: Analysis;
-  commitIndex: number;
-  chapter: number;
-  hp: number;
-  maxHp: number;
-  xp: number;
-  level: number;
-  inventory: string[];
-  questLog: QuestEntry[];
-  history: Array<{ narrative: string; choice: string; commitSha: string }>;
-  currentScene: Scene;
-  startedAt: number;
-  savedAt: number | null;
-}
-
-export interface SaveRecord {
-  slot: string;
-  repo: { owner: string; repo: string };
-  style: Style;
-  savedAt: number;
-  chapter: number;
-  level: number;
-}
-
 export interface Settings {
-  aiMode: "local" | "api";
-  localModel: string;
-  apiBaseUrl: string;
-  apiKey: string;
-  apiModel: string;
   githubToken: string;
   lastStyle: Style;
   volume: number;
@@ -102,12 +58,4 @@ export interface PopularRepo {
 export interface RateLimitStatus {
   remaining: number | null;
   reset: number | null;
-}
-
-export interface PlayerStats {
-  hp: number;
-  maxHp: number;
-  xp: number;
-  level: number;
-  inventory: string[];
 }

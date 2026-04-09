@@ -1,8 +1,7 @@
-import type { Settings, GameState, SaveRecord } from "@/types";
+import type { Settings } from "@/types";
 
 const KEYS = {
   SETTINGS: "gitquest:settings",
-  SAVE_PREFIX: "gitquest:save:",
   HISTORY: "gitquest:history",
   CACHE_PREFIX: "gitquest:cache:",
   CACHE_INDEX: "gitquest:cache_index",
@@ -30,42 +29,6 @@ export const storage = {
     defaultVal: Settings[K] | null = null,
   ): Settings[K] | null {
     return (this.getSettings()[key] as Settings[K]) ?? defaultVal;
-  },
-
-  // ─── Game Saves ──────────────────────────────────────────────────────────
-
-  listSaves(): SaveRecord[] {
-    const saves: SaveRecord[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && key.startsWith(KEYS.SAVE_PREFIX)) {
-        try {
-          const data = JSON.parse(localStorage.getItem(key)!);
-          saves.push({ slot: key.replace(KEYS.SAVE_PREFIX, ""), ...data });
-        } catch {
-          // skip corrupt saves
-        }
-      }
-    }
-    return saves.sort((a, b) => b.savedAt - a.savedAt);
-  },
-
-  saveGame(slot: string, state: GameState) {
-    const key = KEYS.SAVE_PREFIX + slot;
-    localStorage.setItem(key, JSON.stringify({ ...state, savedAt: Date.now() }));
-  },
-
-  loadGame(slot: string): GameState | null {
-    try {
-      const raw = localStorage.getItem(KEYS.SAVE_PREFIX + slot);
-      return raw ? JSON.parse(raw) : null;
-    } catch {
-      return null;
-    }
-  },
-
-  deleteGame(slot: string) {
-    localStorage.removeItem(KEYS.SAVE_PREFIX + slot);
   },
 
   // ─── History ──────────────────────────────────────────────────────────────

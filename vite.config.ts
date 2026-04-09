@@ -14,6 +14,9 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
+  fmt: {
+    ignorePatterns: ["CLAUDE.md"],
+  },
   staged: {
     "*.{ts,tsx,js,jsx}": "vp check --fix",
   },
