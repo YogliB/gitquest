@@ -1,10 +1,3 @@
 export { LandingHeader } from "./LandingHeader/LandingHeader";
 export { PopularReposGrid } from "./PopularReposGrid/PopularReposGrid";
 export { RepoInputBar } from "./RepoInputBar/RepoInputBar";
-export { ThemeToggle } from "./ThemeToggle/ThemeToggle";
-export { WaveformViz } from "./WaveformViz/WaveformViz";
-export { PlaybackControls } from "./PlaybackControls/PlaybackControls";
-export { FromYourCodePanel } from "./FromYourCodePanel/FromYourCodePanel";
-export { TuneMusicPanel } from "./TuneMusicPanel/TuneMusicPanel";
-export { CommitFeed } from "./CommitFeed/CommitFeed";
-export { PlayerHeader } from "./PlayerHeader/PlayerHeader";
