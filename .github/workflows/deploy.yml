@@ -38,6 +38,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Upload Pages artifact (dry-run validation)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./dist"
+
   deploy:
     needs: check
     if: github.ref == 'refs/heads/main'
