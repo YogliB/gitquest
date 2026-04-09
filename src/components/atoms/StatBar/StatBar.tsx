@@ -1,14 +1,14 @@
-import * as styles from './StatBar.css'
+import * as styles from "./StatBar.css";
 
 interface StatBarProps {
-  label: string
-  current: number
-  max: number
-  variant: 'hp' | 'xp'
+  label: string;
+  current: number;
+  max: number;
+  variant: "hp" | "xp";
 }
 
 export function StatBar({ label, current, max, variant }: StatBarProps) {
-  const pct = max > 0 ? (current / max) * 100 : 0
+  const pct = max > 0 ? (current / max) * 100 : 0;
   return (
     <div className={styles.container}>
       <span className={styles.label}>{label}</span>
@@ -17,5 +17,5 @@ export function StatBar({ label, current, max, variant }: StatBarProps) {
       </div>
       <span className={styles.value}>{current}</span>
     </div>
-  )
+  );
 }

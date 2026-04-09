@@ -1,7 +1,7 @@
-export { RepoCard } from './RepoCard/RepoCard'
-export { StyleCard } from './StyleCard/StyleCard'
-export { ChoiceButton } from './ChoiceButton/ChoiceButton'
-export { ChoicesPanel } from './ChoicesPanel/ChoicesPanel'
-export { HeroStats } from './HeroStats/HeroStats'
-export { CommitLore } from './CommitLore/CommitLore'
-export { SaveSlot } from './SaveSlot/SaveSlot'
+export { RepoCard } from "./RepoCard/RepoCard";
+export { StyleCard } from "./StyleCard/StyleCard";
+export { ChoiceButton } from "./ChoiceButton/ChoiceButton";
+export { ChoicesPanel } from "./ChoicesPanel/ChoicesPanel";
+export { HeroStats } from "./HeroStats/HeroStats";
+export { CommitLore } from "./CommitLore/CommitLore";
+export { SaveSlot } from "./SaveSlot/SaveSlot";

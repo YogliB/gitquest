@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -21,13 +21,11 @@
     <script>
       (function () {
         try {
-          var settings = JSON.parse(
-            localStorage.getItem('gitquest:settings') || '{}'
-          );
-          var theme = settings.lastStyle || 'dnd';
-          document.documentElement.setAttribute('data-theme', theme);
+          var settings = JSON.parse(localStorage.getItem("gitquest:settings") || "{}");
+          var theme = settings.lastStyle || "dnd";
+          document.documentElement.setAttribute("data-theme", theme);
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dnd');
+          document.documentElement.setAttribute("data-theme", "dnd");
         }
       })();
     </script>

@@ -1,30 +1,40 @@
-import { useState } from 'react'
-import type { GameState } from '@/types'
-import { GameHeader, GameSidebar, StoryPanel, GameMenuModal } from '@/components/organisms'
-import * as styles from './GameTemplate.css'
+import { useState } from "react";
+import type { GameState } from "@/types";
+import { GameHeader, GameSidebar, StoryPanel, GameMenuModal } from "@/components/organisms";
+import * as styles from "./GameTemplate.css";
 
 interface GameTemplateProps {
-  owner: string
-  repo: string
-  gameState: GameState
-  heroName: string
-  isGenerating: boolean
-  isPlaying: boolean
-  volume: number
-  onChoice: (index: number) => void
-  onCustomChoice: (text: string) => void
-  onSave: () => void
-  onLoadGame: () => void
-  onMusicToggle: () => void
-  onVolumeChange: (v: number) => void
+  owner: string;
+  repo: string;
+  gameState: GameState;
+  heroName: string;
+  isGenerating: boolean;
+  isPlaying: boolean;
+  volume: number;
+  onChoice: (index: number) => void;
+  onCustomChoice: (text: string) => void;
+  onSave: () => void;
+  onLoadGame: () => void;
+  onMusicToggle: () => void;
+  onVolumeChange: (v: number) => void;
 }
 
 export function GameTemplate({
-  owner, repo, gameState, heroName, isGenerating,
-  isPlaying, volume,
-  onChoice, onCustomChoice, onSave, onLoadGame, onMusicToggle, onVolumeChange,
+  owner,
+  repo,
+  gameState,
+  heroName,
+  isGenerating,
+  isPlaying,
+  volume,
+  onChoice,
+  onCustomChoice,
+  onSave,
+  onLoadGame,
+  onMusicToggle,
+  onVolumeChange,
 }: GameTemplateProps) {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className={styles.page}>
@@ -55,12 +65,8 @@ export function GameTemplate({
       </div>
 
       {menuOpen && (
-        <GameMenuModal
-          onClose={() => setMenuOpen(false)}
-          onSave={onSave}
-          onLoadGame={onLoadGame}
-        />
+        <GameMenuModal onClose={() => setMenuOpen(false)} onSave={onSave} onLoadGame={onLoadGame} />
       )}
     </div>
-  )
+  );
 }

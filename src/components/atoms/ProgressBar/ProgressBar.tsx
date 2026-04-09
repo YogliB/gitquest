@@ -1,7 +1,7 @@
-import * as styles from './ProgressBar.css'
+import * as styles from "./ProgressBar.css";
 
 interface ProgressBarProps {
-  value: number // 0-100
+  value: number; // 0-100
 }
 
 export function ProgressBar({ value }: ProgressBarProps) {
@@ -9,5 +9,5 @@ export function ProgressBar({ value }: ProgressBarProps) {
     <div className={styles.track}>
       <div className={styles.fill} style={{ width: `${Math.max(0, Math.min(100, value))}%` }} />
     </div>
-  )
+  );
 }

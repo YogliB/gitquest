@@ -1,4 +1,4 @@
-import { createThemeContract } from '@vanilla-extract/css'
+import { createThemeContract } from "@vanilla-extract/css";
 
 export const vars = createThemeContract({
   font: {
@@ -46,4 +46,4 @@ export const vars = createThemeContract({
     overlay: null,
     modal: null,
   },
-})
+});

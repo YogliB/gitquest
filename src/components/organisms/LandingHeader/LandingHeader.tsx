@@ -1,4 +1,4 @@
-import * as styles from './LandingHeader.css'
+import * as styles from "./LandingHeader.css";
 
 export function LandingHeader() {
   return (
@@ -9,5 +9,5 @@ export function LandingHeader() {
         <p className={styles.tagline}>Your Code, Your Legend</p>
       </div>
     </header>
-  )
+  );
 }

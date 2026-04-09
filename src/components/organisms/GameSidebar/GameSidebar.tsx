@@ -1,16 +1,16 @@
-import type { GameState } from '@/types'
-import { Badge } from '@/components/atoms'
-import { HeroStats, CommitLore } from '@/components/molecules'
-import * as styles from './GameSidebar.css'
+import type { GameState } from "@/types";
+import { Badge } from "@/components/atoms";
+import { HeroStats, CommitLore } from "@/components/molecules";
+import * as styles from "./GameSidebar.css";
 
 interface GameSidebarProps {
-  gameState: GameState
-  heroName: string
+  gameState: GameState;
+  heroName: string;
 }
 
 export function GameSidebar({ gameState, heroName }: GameSidebarProps) {
-  const { style, hp, maxHp, xp, level, inventory, questLog } = gameState
-  const commit = gameState.commits[gameState.commitIndex] || null
+  const { style, hp, maxHp, xp, level, inventory, questLog } = gameState;
+  const commit = gameState.commits[gameState.commitIndex] || null;
 
   return (
     <aside className={styles.sidebar}>
@@ -25,8 +25,10 @@ export function GameSidebar({ gameState, heroName }: GameSidebarProps) {
           {inventory.length === 0 ? (
             <span className={styles.emptyInventory}>Empty</span>
           ) : (
-            inventory.map(item => (
-              <Badge key={item} variant="inventory">{item}</Badge>
+            inventory.map((item) => (
+              <Badge key={item} variant="inventory">
+                {item}
+              </Badge>
             ))
           )}
         </div>
@@ -36,7 +38,9 @@ export function GameSidebar({ gameState, heroName }: GameSidebarProps) {
         <h4 className={styles.sectionTitle}>Quest Log</h4>
         <div className={styles.questLog}>
           {questLog.slice(0, 5).map((q, i) => (
-            <div key={i} className={styles.questEntry}>{q.text}</div>
+            <div key={i} className={styles.questEntry}>
+              {q.text}
+            </div>
           ))}
         </div>
       </div>
@@ -46,5 +50,5 @@ export function GameSidebar({ gameState, heroName }: GameSidebarProps) {
         <CommitLore commit={commit} />
       </div>
     </aside>
-  )
+  );
 }

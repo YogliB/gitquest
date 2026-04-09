@@ -1,5 +1,5 @@
-import { storage } from './storage'
-import type { Commit, Scene, Style, GameState } from '@/types'
+import { storage } from "./storage";
+import type { Commit, Scene, Style, GameState } from "@/types";
 
 // ─── Prompt Templates ─────────────────────────────────────────────────────────
 
@@ -51,40 +51,52 @@ Write in the style of psychological horror: dread-filled, atmospheric, with a se
 [A] First choice
 [B] Second choice
 [C] Third choice`,
-}
+};
 
 const LOADING_MESSAGES: Record<Style, string[]> = {
-  dnd: ['The oracle consults the ancient scrolls...', 'The Dungeon Master weaves your fate...', 'The magic crystals reveal your path...'],
-  scifi: ['Processing narrative matrix...', 'AI core generating scenario...', 'Calculating probability vectors...'],
-  horror: ['Something stirs in the darkness...', 'The voices whisper your fate...', 'The pages write themselves...'],
-}
+  dnd: [
+    "The oracle consults the ancient scrolls...",
+    "The Dungeon Master weaves your fate...",
+    "The magic crystals reveal your path...",
+  ],
+  scifi: [
+    "Processing narrative matrix...",
+    "AI core generating scenario...",
+    "Calculating probability vectors...",
+  ],
+  horror: [
+    "Something stirs in the darkness...",
+    "The voices whisper your fate...",
+    "The pages write themselves...",
+  ],
+};
 
 // ─── AI Engine ────────────────────────────────────────────────────────────────
 
 class AIEngine {
-  mode: 'local' | 'api' = 'local'
-  localEngine: any = null
-  localModelId = 'Phi-3-mini-4k-instruct-q4f16_1-MLC'
-  apiBaseUrl = 'https://api.openai.com/v1'
-  apiKey = ''
-  apiModel = 'gpt-4o-mini'
+  mode: "local" | "api" = "local";
+  localEngine: any = null;
+  localModelId = "Phi-3-mini-4k-instruct-q4f16_1-MLC";
+  apiBaseUrl = "https://api.openai.com/v1";
+  apiKey = "";
+  apiModel = "gpt-4o-mini";
 
   constructor() {
-    this.loadSettings()
+    this.loadSettings();
   }
 
   loadSettings() {
-    const s = storage.getSettings()
-    this.mode = (s.aiMode as 'local' | 'api') || 'local'
-    this.localModelId = s.localModel || 'Phi-3-mini-4k-instruct-q4f16_1-MLC'
-    this.apiBaseUrl = s.apiBaseUrl || 'https://api.openai.com/v1'
-    this.apiKey = s.apiKey || ''
-    this.apiModel = s.apiModel || 'gpt-4o-mini'
+    const s = storage.getSettings();
+    this.mode = (s.aiMode as "local" | "api") || "local";
+    this.localModelId = s.localModel || "Phi-3-mini-4k-instruct-q4f16_1-MLC";
+    this.apiBaseUrl = s.apiBaseUrl || "https://api.openai.com/v1";
+    this.apiKey = s.apiKey || "";
+    this.apiModel = s.apiModel || "gpt-4o-mini";
   }
 
   getLoadingMessage(style: Style): string {
-    const msgs = LOADING_MESSAGES[style] || LOADING_MESSAGES.dnd
-    return msgs[Math.floor(Math.random() * msgs.length)]
+    const msgs = LOADING_MESSAGES[style] || LOADING_MESSAGES.dnd;
+    return msgs[Math.floor(Math.random() * msgs.length)];
   }
 
   async generateScene({
@@ -94,78 +106,90 @@ class AIEngine {
     gameState,
     playerChoice = null,
   }: {
-    commits: Commit[]
-    currentCommitIndex: number
-    style: Style
-    gameState: Pick<GameState, 'hp' | 'xp' | 'inventory'>
-    playerChoice?: string | null
+    commits: Commit[];
+    currentCommitIndex: number;
+    style: Style;
+    gameState: Pick<GameState, "hp" | "xp" | "inventory">;
+    playerChoice?: string | null;
   }): Promise<Scene> {
-    const commit = commits[currentCommitIndex] || commits[0]
-    const prevCommit = commits[currentCommitIndex - 1] || null
-    const systemPrompt = SYSTEM_PROMPTS[style] || SYSTEM_PROMPTS.dnd
-    const userPrompt = buildUserPrompt({ commit, prevCommit, style, gameState, playerChoice, currentCommitIndex, total: commits.length })
+    const commit = commits[currentCommitIndex] || commits[0];
+    const prevCommit = commits[currentCommitIndex - 1] || null;
+    const systemPrompt = SYSTEM_PROMPTS[style] || SYSTEM_PROMPTS.dnd;
+    const userPrompt = buildUserPrompt({
+      commit,
+      prevCommit,
+      style,
+      gameState,
+      playerChoice,
+      currentCommitIndex,
+      total: commits.length,
+    });
 
-    if (this.mode === 'api' && this.apiKey) {
-      return this.generateViaAPI(systemPrompt, userPrompt)
+    if (this.mode === "api" && this.apiKey) {
+      return this.generateViaAPI(systemPrompt, userPrompt);
     }
-    return this.generateViaLocal(systemPrompt, userPrompt)
+    return this.generateViaLocal(systemPrompt, userPrompt);
   }
 
   async initLocalEngine(onProgress?: (progress: number, text: string) => void) {
-    if (this.localEngine) return this.localEngine
-    const { CreateMLCEngine } = await import('https://esm.run/@mlc-ai/web-llm' as any)
+    if (this.localEngine) return this.localEngine;
+    const { CreateMLCEngine } = await import("https://esm.run/@mlc-ai/web-llm" as any);
     this.localEngine = await CreateMLCEngine(this.localModelId, {
       initProgressCallback: (report: any) => {
-        if (onProgress) onProgress(report.progress, report.text)
+        if (onProgress) onProgress(report.progress, report.text);
       },
-    })
-    return this.localEngine
+    });
+    return this.localEngine;
   }
 
-  async generateViaLocal(systemPrompt: string, userPrompt: string, onProgress?: (p: number, t: string) => void): Promise<Scene> {
+  async generateViaLocal(
+    systemPrompt: string,
+    userPrompt: string,
+    onProgress?: (p: number, t: string) => void,
+  ): Promise<Scene> {
     try {
-      const engine = await this.initLocalEngine(onProgress)
+      const engine = await this.initLocalEngine(onProgress);
       const response = await engine.chat.completions.create({
         messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
         ],
         temperature: 0.85,
         max_tokens: 400,
-      })
-      return parseAIResponse(response.choices[0].message.content)
+      });
+      return parseAIResponse(response.choices[0].message.content);
     } catch (err) {
-      console.warn('Local AI failed, using fallback:', err)
-      throw err
+      console.warn("Local AI failed, using fallback:", err);
+      throw err;
     }
   }
 
   async generateViaAPI(systemPrompt: string, userPrompt: string): Promise<Scene> {
-    const baseUrl = this.apiBaseUrl.replace(/\/$/, '')
+    const baseUrl = this.apiBaseUrl.replace(/\/$/, "");
     const res = await fetch(`${baseUrl}/chat/completions`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${this.apiKey}`,
       },
       body: JSON.stringify({
         model: this.apiModel,
         messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt },
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
         ],
         temperature: 0.85,
         max_tokens: 400,
       }),
-    })
+    });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}))
-      throw new Error((err as any).error?.message || `API error: ${res.status}`)
+      const err = await res.json().catch(() => ({}));
+      throw new Error((err as any).error?.message || `API error: ${res.status}`);
     }
 
-    const data = await res.json()
-    return parseAIResponse(data.choices[0].message.content)
+    const data = await res.json();
+    return parseAIResponse(data.choices[0].message.content);
   }
 }
 
@@ -180,50 +204,57 @@ function buildUserPrompt({
   currentCommitIndex,
   total,
 }: {
-  commit: Commit
-  prevCommit: Commit | null
-  style: Style
-  gameState: Pick<GameState, 'hp' | 'xp' | 'inventory'>
-  playerChoice: string | null
-  currentCommitIndex: number
-  total: number
+  commit: Commit;
+  prevCommit: Commit | null;
+  style: Style;
+  gameState: Pick<GameState, "hp" | "xp" | "inventory">;
+  playerChoice: string | null;
+  currentCommitIndex: number;
+  total: number;
 }): string {
-  const progress = `${currentCommitIndex + 1}/${total}`
-  const timeOfDay = commit.hour < 6 ? 'dead of night' : commit.hour < 12 ? 'morning' : commit.hour < 18 ? 'afternoon' : 'evening'
+  const progress = `${currentCommitIndex + 1}/${total}`;
+  const timeOfDay =
+    commit.hour < 6
+      ? "dead of night"
+      : commit.hour < 12
+        ? "morning"
+        : commit.hour < 18
+          ? "afternoon"
+          : "evening";
 
-  let prompt = `Repository event ${progress}:\n`
-  prompt += `Commit: "${commit.subject}"\n`
-  prompt += `Author: ${commit.author.name}\n`
-  prompt += `Time: ${timeOfDay}\n`
-  if (commit.body) prompt += `Details: ${commit.body.slice(0, 200)}\n`
-  if (prevCommit) prompt += `Previous event: "${prevCommit.subject}"\n`
-  if (playerChoice) prompt += `\nThe player chose: "${playerChoice}"\n`
-  prompt += `\nPlayer stats: HP ${gameState.hp}/100, XP ${gameState.xp}\n`
-  if (gameState.inventory.length) prompt += `Inventory: ${gameState.inventory.join(', ')}\n`
-  prompt += `\nNarrate this commit as a ${style} story event. Include the player's previous choice consequences if any. End with exactly 3 choices labeled [A], [B], [C].`
-  return prompt
+  let prompt = `Repository event ${progress}:\n`;
+  prompt += `Commit: "${commit.subject}"\n`;
+  prompt += `Author: ${commit.author.name}\n`;
+  prompt += `Time: ${timeOfDay}\n`;
+  if (commit.body) prompt += `Details: ${commit.body.slice(0, 200)}\n`;
+  if (prevCommit) prompt += `Previous event: "${prevCommit.subject}"\n`;
+  if (playerChoice) prompt += `\nThe player chose: "${playerChoice}"\n`;
+  prompt += `\nPlayer stats: HP ${gameState.hp}/100, XP ${gameState.xp}\n`;
+  if (gameState.inventory.length) prompt += `Inventory: ${gameState.inventory.join(", ")}\n`;
+  prompt += `\nNarrate this commit as a ${style} story event. Include the player's previous choice consequences if any. End with exactly 3 choices labeled [A], [B], [C].`;
+  return prompt;
 }
 
 function parseAIResponse(text: string): Scene {
-  const choiceRegex = /\[([ABC])\]\s*(.+?)(?=\[[ABC]\]|$)/gs
-  const choices: Array<{ label: string; text: string }> = []
-  let match
+  const choiceRegex = /\[([ABC])\]\s*(.+?)(?=\[[ABC]\]|$)/gs;
+  const choices: Array<{ label: string; text: string }> = [];
+  let match;
   while ((match = choiceRegex.exec(text)) !== null) {
-    choices.push({ label: match[1], text: match[2].trim() })
+    choices.push({ label: match[1], text: match[2].trim() });
   }
 
-  const firstChoiceIdx = text.search(/\[A\]/)
-  const narrative = firstChoiceIdx > 0 ? text.slice(0, firstChoiceIdx).trim() : text.trim()
+  const firstChoiceIdx = text.search(/\[A\]/);
+  const narrative = firstChoiceIdx > 0 ? text.slice(0, firstChoiceIdx).trim() : text.trim();
 
   if (choices.length === 0) {
     choices.push(
-      { label: 'A', text: 'Press forward boldly' },
-      { label: 'B', text: 'Proceed with caution' },
-      { label: 'C', text: 'Seek more information' },
-    )
+      { label: "A", text: "Press forward boldly" },
+      { label: "B", text: "Proceed with caution" },
+      { label: "C", text: "Seek more information" },
+    );
   }
 
-  return { narrative, choices }
+  return { narrative, choices };
 }
 
 export function generateFallbackScene({
@@ -232,10 +263,10 @@ export function generateFallbackScene({
   currentCommitIndex,
   total,
 }: {
-  commit: Commit
-  style: Style
-  currentCommitIndex: number
-  total: number
+  commit: Commit;
+  style: Style;
+  currentCommitIndex: number;
+  total: number;
 }): Scene {
   const templates: Record<Style, string[]> = {
     dnd: [
@@ -253,40 +284,40 @@ export function generateFallbackScene({
       `${commit.author.name} did something. The entry says "${commit.subject}". That was three days ago. No one has seen them since.`,
       `You find a note: "${commit.subject}" — signed by ${commit.author.name}. The ink is still fresh. Or is that something else?`,
     ],
-  }
+  };
 
-  const pool = templates[style] || templates.dnd
-  const narrative = pool[currentCommitIndex % pool.length]
+  const pool = templates[style] || templates.dnd;
+  const narrative = pool[currentCommitIndex % pool.length];
 
   const choiceSets: Record<Style, Array<{ label: string; text: string }>> = {
     dnd: [
-      { label: 'A', text: 'Draw your sword and face what lies ahead' },
-      { label: 'B', text: 'Consult the ancient scrolls for guidance' },
-      { label: 'C', text: 'Seek allies before proceeding' },
+      { label: "A", text: "Draw your sword and face what lies ahead" },
+      { label: "B", text: "Consult the ancient scrolls for guidance" },
+      { label: "C", text: "Seek allies before proceeding" },
     ],
     scifi: [
-      { label: 'A', text: 'Execute primary mission objective' },
-      { label: 'B', text: 'Run diagnostics and assess the situation' },
-      { label: 'C', text: 'Contact command for further instructions' },
+      { label: "A", text: "Execute primary mission objective" },
+      { label: "B", text: "Run diagnostics and assess the situation" },
+      { label: "C", text: "Contact command for further instructions" },
     ],
     horror: [
-      { label: 'A', text: 'Go deeper. You need to know the truth.' },
-      { label: 'B', text: 'Stay where you are. Moving feels wrong.' },
-      { label: 'C', text: 'Try to leave. While you still can.' },
+      { label: "A", text: "Go deeper. You need to know the truth." },
+      { label: "B", text: "Stay where you are. Moving feels wrong." },
+      { label: "C", text: "Try to leave. While you still can." },
     ],
-  }
+  };
 
-  return { narrative, choices: choiceSets[style] || choiceSets.dnd }
+  return { narrative, choices: choiceSets[style] || choiceSets.dnd };
 }
 
 function pickClass(commit: Commit): string {
-  const msg = commit.subject.toLowerCase()
-  if (/fix|bug/.test(msg)) return 'Paladin'
-  if (/feat|add/.test(msg)) return 'Wizard'
-  if (/refactor/.test(msg)) return 'Druid'
-  if (/test/.test(msg)) return 'Ranger'
-  if (/doc/.test(msg)) return 'Bard'
-  return 'Adventurer'
+  const msg = commit.subject.toLowerCase();
+  if (/fix|bug/.test(msg)) return "Paladin";
+  if (/feat|add/.test(msg)) return "Wizard";
+  if (/refactor/.test(msg)) return "Druid";
+  if (/test/.test(msg)) return "Ranger";
+  if (/doc/.test(msg)) return "Bard";
+  return "Adventurer";
 }
 
-export const aiEngine = new AIEngine()
+export const aiEngine = new AIEngine();

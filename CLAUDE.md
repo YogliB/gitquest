@@ -88,32 +88,35 @@ Player choice  →  back to story-engine.js
 
 ### Key Patterns
 
-| Pattern | Usage |
-|---|---|
-| **Singleton exports** | Each module exports a single instance (`export const storyEngine = new StoryEngine()`) |
-| **Callbacks** | `storyEngine.onSceneReady`, `onStatsUpdate`, `onQuestUpdate`, `onGameOver` for UI updates |
-| **Custom events** | `github-ratelimit-update`, `skipTypewriter` dispatched on `document` |
-| **Screen toggling** | Fullscreen `.screen` divs toggled with `.active` class |
-| **Theme switching** | `.theme-dnd`, `.theme-scifi`, `.theme-horror` on root element |
-| **URL routing** | Path format `/<owner>/<repo>/<style>` with `pushState` |
+| Pattern               | Usage                                                                                     |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| **Singleton exports** | Each module exports a single instance (`export const storyEngine = new StoryEngine()`)    |
+| **Callbacks**         | `storyEngine.onSceneReady`, `onStatsUpdate`, `onQuestUpdate`, `onGameOver` for UI updates |
+| **Custom events**     | `github-ratelimit-update`, `skipTypewriter` dispatched on `document`                      |
+| **Screen toggling**   | Fullscreen `.screen` divs toggled with `.active` class                                    |
+| **Theme switching**   | `.theme-dnd`, `.theme-scifi`, `.theme-horror` on root element                             |
+| **URL routing**       | Path format `/<owner>/<repo>/<style>` with `pushState`                                    |
 
 ---
 
 ## Code Conventions
 
 ### Naming
+
 - Variables and functions: `camelCase`
 - Constants: `SCREAMING_SNAKE_CASE` (e.g., `GITHUB_API`, `STYLE_CONFIGS`)
 - HTML ids and CSS classes: `kebab-case`
 - File names: `kebab-case.js` / `kebab-case.css`
 
 ### JavaScript Style
+
 - Comment section dividers use `───` (em-dashes)
 - Config/mapping data lives in object literals at module top (e.g., `SYSTEM_PROMPTS`, `STYLE_CONFIGS`)
 - Prefer early returns over deeply nested conditionals
 - No TypeScript — plain JS throughout
 
 ### CSS Style
+
 - All design tokens as CSS custom properties in `:root` in `base.css`
 - Theme files only override `--color-*`, `--font-*`, and structural properties under `.theme-[name]`
 - Component styles follow BEM-inspired naming (`.screen`, `.screen-content`, `.choice-btn`)
@@ -123,6 +126,7 @@ Player choice  →  back to story-engine.js
 ## Key Data Structures
 
 ### Commit object (from `github.js`)
+
 ```js
 {
   sha, shortSha, message, subject, body,
@@ -133,6 +137,7 @@ Player choice  →  back to story-engine.js
 ```
 
 ### Scene object (from `ai-engine.js`)
+
 ```js
 {
   narrative: string,           // story text rendered with typewriter effect
@@ -142,6 +147,7 @@ Player choice  →  back to story-engine.js
 ```
 
 ### Game state (in `story-engine.js`)
+
 ```js
 {
   repo, style, commits, analysis,
@@ -157,13 +163,13 @@ Player choice  →  back to story-engine.js
 
 ## localStorage Keys
 
-| Key pattern | Contents |
-|---|---|
-| `gitquest:settings` | User preferences (AI mode, API keys, last style) |
-| `gitquest:save:<id>` | Serialized game state |
-| `gitquest:history` | Recently played repos list |
-| `gitquest:cache:<owner>/<repo>:info` | Cached repo metadata (1-hour TTL) |
-| `gitquest:cache:<owner>/<repo>:commits` | Cached commit list (1-hour TTL) |
+| Key pattern                             | Contents                                         |
+| --------------------------------------- | ------------------------------------------------ |
+| `gitquest:settings`                     | User preferences (AI mode, API keys, last style) |
+| `gitquest:save:<id>`                    | Serialized game state                            |
+| `gitquest:history`                      | Recently played repos list                       |
+| `gitquest:cache:<owner>/<repo>:info`    | Cached repo metadata (1-hour TTL)                |
+| `gitquest:cache:<owner>/<repo>:commits` | Cached commit list (1-hour TTL)                  |
 
 ---
 
@@ -179,11 +185,11 @@ Player choice  →  back to story-engine.js
 
 ## AI Engine Modes (`ai-engine.js`)
 
-| Mode | Description |
-|---|---|
-| `local` | WebLLM (in-browser LLM, no API key needed, large model download) |
-| `api` | OpenAI-compatible REST API (Gemini, Ollama, OpenAI, etc.) |
-| Fallback | Deterministic template-based generation when AI unavailable |
+| Mode     | Description                                                      |
+| -------- | ---------------------------------------------------------------- |
+| `local`  | WebLLM (in-browser LLM, no API key needed, large model download) |
+| `api`    | OpenAI-compatible REST API (Gemini, Ollama, OpenAI, etc.)        |
+| Fallback | Deterministic template-based generation when AI unavailable      |
 
 AI output is parsed by regex to extract narrative text and `[A]`/`[B]`/`[C]` labeled choices.
 System prompts are style-specific and defined in `SYSTEM_PROMPTS` in `ai-engine.js`.
@@ -203,11 +209,11 @@ System prompts are style-specific and defined in `SYSTEM_PROMPTS` in `ai-engine.
 
 Three visual themes, each with a dedicated CSS file and a matching AI personality:
 
-| Theme class | Tone | Key fonts |
-|---|---|---|
-| `.theme-dnd` | Medieval fantasy, parchment colors | Cinzel, MedievalSharp |
-| `.theme-scifi` | Cyberpunk neon, tech UI | Orbitron, Share Tech Mono |
-| `.theme-horror` | Dark, atmospheric, unsettling | Creepster, Special Elite |
+| Theme class     | Tone                               | Key fonts                 |
+| --------------- | ---------------------------------- | ------------------------- |
+| `.theme-dnd`    | Medieval fantasy, parchment colors | Cinzel, MedievalSharp     |
+| `.theme-scifi`  | Cyberpunk neon, tech UI            | Orbitron, Share Tech Mono |
+| `.theme-horror` | Dark, atmospheric, unsettling      | Creepster, Special Elite  |
 
 ---
 

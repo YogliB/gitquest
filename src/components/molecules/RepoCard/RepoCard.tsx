@@ -1,9 +1,9 @@
-import type { PopularRepo } from '@/types'
-import * as styles from './RepoCard.css'
+import type { PopularRepo } from "@/types";
+import * as styles from "./RepoCard.css";
 
 interface RepoCardProps {
-  repo: PopularRepo
-  onSelect: (owner: string, repo: string) => void
+  repo: PopularRepo;
+  onSelect: (owner: string, repo: string) => void;
 }
 
 export function RepoCard({ repo, onSelect }: RepoCardProps) {
@@ -17,5 +17,5 @@ export function RepoCard({ repo, onSelect }: RepoCardProps) {
         <span>{repo.lang}</span>
       </div>
     </div>
-  )
+  );
 }

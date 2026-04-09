@@ -1,32 +1,32 @@
-import { style } from '@vanilla-extract/css'
-import { vars } from '@/styles/contract.css'
+import { style } from "@vanilla-extract/css";
+import { vars } from "@/styles/contract.css";
 
 export const page = style({
-  minHeight: '100vh',
-  display: 'flex',
-  flexDirection: 'column',
-  position: 'relative',
-  overflow: 'hidden',
-})
+  minHeight: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  position: "relative",
+  overflow: "hidden",
+});
 
 export const bg = style({
-  position: 'fixed',
+  position: "fixed",
   inset: 0,
   zIndex: vars.zIndex.bg,
-})
+});
 
 export const layout = style({
-  position: 'relative',
+  position: "relative",
   zIndex: vars.zIndex.content,
-  display: 'flex',
+  display: "flex",
   flex: 1,
-  overflow: 'hidden',
-  height: 'calc(100vh - 56px)',
-})
+  overflow: "hidden",
+  height: "calc(100vh - 56px)",
+});
 
 export const main = style({
   flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  overflow: 'hidden',
-})
+  display: "flex",
+  flexDirection: "column",
+  overflow: "hidden",
+});

@@ -1,10 +1,10 @@
-import { LandingHeader, PopularReposGrid, RepoInputBar, Particles } from '@/components/organisms'
-import * as styles from './LandingTemplate.css'
+import { LandingHeader, PopularReposGrid, RepoInputBar, Particles } from "@/components/organisms";
+import * as styles from "./LandingTemplate.css";
 
 interface LandingTemplateProps {
-  error: string | null
-  onSubmit: (value: string) => void
-  onRepoSelect: (owner: string, repo: string) => void
+  error: string | null;
+  onSubmit: (value: string) => void;
+  onRepoSelect: (owner: string, repo: string) => void;
 }
 
 export function LandingTemplate({ error, onSubmit, onRepoSelect }: LandingTemplateProps) {
@@ -22,7 +22,12 @@ export function LandingTemplate({ error, onSubmit, onRepoSelect }: LandingTempla
         <footer className={styles.footer}>
           <p>No backend. No tracking. All magic happens in your browser.</p>
           <div className={styles.footerLinks}>
-            <a href="https://github.com/YogliB/gitquest" target="_blank" rel="noopener noreferrer" className={styles.footerLink}>
+            <a
+              href="https://github.com/YogliB/gitquest"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.footerLink}
+            >
               github repository
             </a>
             <span>|</span>
@@ -31,5 +36,5 @@ export function LandingTemplate({ error, onSubmit, onRepoSelect }: LandingTempla
         </footer>
       </div>
     </div>
-  )
+  );
 }

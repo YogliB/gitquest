@@ -2,15 +2,20 @@
   "name": "gitquest",
   "version": "2.0.0",
   "description": "Transform any GitHub repository into a text adventure RPG",
+  "keywords": [
+    "game",
+    "git",
+    "rpg",
+    "text-adventure"
+  ],
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vp dev",
     "build": "vp build",
     "preview": "vp preview"
   },
-  "keywords": ["git", "game", "rpg", "text-adventure"],
-  "license": "MIT",
-"dependencies": {
+  "dependencies": {
     "@vanilla-extract/css": "^1.16.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import { Button } from '@/components/atoms'
-import * as styles from './RepoInputBar.css'
+import { useState } from "react";
+import { Button } from "@/components/atoms";
+import * as styles from "./RepoInputBar.css";
 
 interface RepoInputBarProps {
-  error: string | null
-  onSubmit: (value: string) => void
-  defaultValue?: string
+  error: string | null;
+  onSubmit: (value: string) => void;
+  defaultValue?: string;
 }
 
-export function RepoInputBar({ error, onSubmit, defaultValue = '' }: RepoInputBarProps) {
-  const [value, setValue] = useState(defaultValue)
+export function RepoInputBar({ error, onSubmit, defaultValue = "" }: RepoInputBarProps) {
+  const [value, setValue] = useState(defaultValue);
 
   const handleSubmit = () => {
-    if (value.trim()) onSubmit(value.trim())
-  }
+    if (value.trim()) onSubmit(value.trim());
+  };
 
   return (
     <section className={styles.section}>
@@ -28,14 +28,20 @@ export function RepoInputBar({ error, onSubmit, defaultValue = '' }: RepoInputBa
           autoComplete="off"
           spellCheck={false}
           value={value}
-          onChange={e => setValue(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter') handleSubmit() }}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSubmit();
+          }}
         />
-        <Button variant="primary" onClick={handleSubmit} style={{ margin: '6px', borderRadius: '10px' }}>
+        <Button
+          variant="primary"
+          onClick={handleSubmit}
+          style={{ margin: "6px", borderRadius: "10px" }}
+        >
           <span>⚔</span> Begin Quest
         </Button>
       </div>
       {error && <div className={styles.error}>{error}</div>}
     </section>
-  )
+  );
 }
