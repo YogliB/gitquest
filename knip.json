@@ -1,5 +1,5 @@
 {
   "$schema": "https://unpkg.com/knip/schema.json",
-  "ignoreDependencies": ["@voidzero-dev/vite-plus-core", "@vitest/coverage-v8"],
+  "ignoreDependencies": ["@voidzero-dev/vite-plus-core"],
   "ignoreFiles": ["oxlint.config.ts"]
 }
