@@ -47,6 +47,24 @@ jobs:
       - name: Check for duplicate code
         run: npm run jscpd
 
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test with coverage
+        run: npm run test:coverage
+
   build:
     runs-on: ubuntu-latest
     steps:

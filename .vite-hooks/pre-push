@@ -1,3 +1,16 @@
 #!/bin/sh
-npm run knip
-npm run jscpd
+npm run knip &
+PID_KNIP=$!
+npm run jscpd &
+PID_JSCPD=$!
+npm run test:coverage &
+PID_COVERAGE=$!
+
+wait $PID_KNIP
+STATUS_KNIP=$?
+wait $PID_JSCPD
+STATUS_JSCPD=$?
+wait $PID_COVERAGE
+STATUS_COVERAGE=$?
+
+[ $STATUS_KNIP -eq 0 ] && [ $STATUS_JSCPD -eq 0 ] && [ $STATUS_COVERAGE -eq 0 ]
