@@ -42,7 +42,8 @@ export function RepoInputBar({ error, onSubmit, defaultValue = "" }: RepoInputBa
           onClick={handleSubmit}
           disabled={!value.trim()}
         >
-          Generate Music
+          <span className="hidden sm:inline">Generate Music</span>
+          <span className="sm:hidden">▶ Listen</span>
         </button>
       </div>
       {error && (
