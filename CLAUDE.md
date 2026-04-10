@@ -13,6 +13,10 @@
 ```
 gitquest/
 ├── index.html                     # HTML entry; preloads fonts, applies color theme before React mounts
+├── .storybook/
+│   ├── main.ts                    # Storybook config; Vite framework with Tailwind plugin + @/ alias
+│   ├── preview.tsx                # Global decorator for DaisyUI theme toolbar + CSS import
+│   └── preview-head.html          # Google Fonts preload for Storybook
 ├── src/
 │   ├── main.tsx                   # React DOM entry point
 │   ├── App.tsx                    # Root component; manages data-theme attribute on <html>
@@ -28,13 +32,15 @@ gitquest/
 │   │   ├── repoSlice.ts           # commits, analysis, overrides, urlError, isLoading, loadError
 │   │   ├── settingsSlice.ts       # githubToken, colorTheme, rateLimit (persisted)
 │   │   └── musicSlice.ts          # isPlaying, volume, musicStarted
+│   ├── stories/
+│   │   └── mockData.ts            # Shared mock fixtures (Analysis, Commit[], PopularRepo, etc.)
 │   ├── components/                # Atomic design hierarchy (no atoms level)
-│   │   ├── molecules/             # RepoCard
-│   │   ├── organisms/             # CommitFeed, FromYourCodePanel, LandingHeader,
-│   │   │                          #   PlaybackControls, PlayerHeader, PopularReposGrid,
-│   │   │                          #   RepoInputBar, ThemeToggle, TuneMusicPanel, WaveformViz
-│   │   ├── templates/             # LandingTemplate, PlayerTemplate
-│   │   └── pages/                 # LandingPage, PlayerPage
+│   │   ├── molecules/             # RepoCard/
+│   │   ├── organisms/             # CommitFeed/, FromYourCodePanel/, LandingHeader/,
+│   │   │                          #   PlaybackControls/, PlayerHeader/, PopularReposGrid/,
+│   │   │                          #   RepoInputBar/, ThemeToggle/, TuneMusicPanel/, WaveformViz/
+│   │   ├── templates/             # LandingTemplate/, PlayerTemplate/
+│   │   └── pages/                 # LandingPage/, PlayerPage/
 │   └── styles/
 │       └── global.css             # Tailwind v4 import, DaisyUI plugin, two custom themes, global resets
 ├── package.json                   # Dependencies and scripts
@@ -59,6 +65,7 @@ gitquest/
 - **Tone.js 14.8.49** — Browser audio synthesis (npm dependency)
 - **Vite 8** + **vite-plus** — Build tooling; `vp` CLI wraps Vite with formatting, staged hooks, and pre-commit checks
 - **Vitest 3** — Unit test runner; V8 coverage provider with 80% per-file thresholds
+- **Storybook 10** — Component explorer; each component has a colocated `.stories.tsx` file
 - **Knip 5** — Detects unused exports and dependencies
 - **jscpd** — Detects duplicate code blocks
 - **GitHub API v3** — Commit history and repo metadata
@@ -94,6 +101,15 @@ npm run test:coverage # run with V8 coverage; requires 80% statements/lines/func
 ```
 
 Vitest excludes `*.css.ts`, `src/types/**`, and `src/main.tsx` from coverage. Test files should be colocated or in a `__tests__/` sibling.
+
+### Storybook
+
+```bash
+npm run storybook       # start Storybook dev server at http://localhost:6006
+npm run build-storybook # build static Storybook to storybook-static/
+```
+
+Every component has a colocated `ComponentName.stories.tsx` file. Shared mock fixtures live in `src/stories/mockData.ts`. The DaisyUI theme is switchable via the paintbrush toolbar in Storybook.
 
 ### Code Quality
 
@@ -168,6 +184,7 @@ Player UI:
 - Constants: `SCREAMING_SNAKE_CASE` (e.g., `GITHUB_API`, `POPULAR_REPOS`, `ENGINE_CONFIG`)
 - HTML ids and CSS classes: `kebab-case`
 - File names: `kebab-case.ts` / `PascalCase.tsx`
+- Story files: `PascalCase.stories.tsx` colocated in the same folder as the component
 
 ### TypeScript Style
 
