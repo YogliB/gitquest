@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 import { PlayerTemplate } from "./PlayerTemplate";
-import { mockAnalysis, mockCommits, mockOverridesEmpty, mockOverridesPartial } from "@/stories/mockData";
+import {
+  mockAnalysis,
+  mockCommits,
+  mockOverridesEmpty,
+  mockOverridesPartial,
+} from "@/stories/mockData";
 
 const meta = {
   title: "Templates/PlayerTemplate",

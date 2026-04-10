@@ -15,16 +15,16 @@ Transform any GitHub repository's commit history into generative algorithmic mus
 
 ## Tech Stack
 
-| Layer | Library / Tool |
-|---|---|
-| UI | React 18, TypeScript 5.6 |
-| Routing | React Router 6 (hash-based) |
-| State | Zustand 5 |
-| Audio | Tone.js 14 |
-| Styling | Tailwind CSS v4, DaisyUI v5 |
-| Build | Vite 8, vite-plus |
-| Testing | Vitest 3, V8 coverage |
-| Component Explorer | Storybook 10 |
+| Layer              | Library / Tool              |
+| ------------------ | --------------------------- |
+| UI                 | React 18, TypeScript 5.6    |
+| Routing            | React Router 6 (hash-based) |
+| State              | Zustand 5                   |
+| Audio              | Tone.js 14                  |
+| Styling            | Tailwind CSS v4, DaisyUI v5 |
+| Build              | Vite 8, vite-plus           |
+| Testing            | Vitest 3, V8 coverage       |
+| Component Explorer | Storybook 10                |
 
 ## Getting Started
 
@@ -39,16 +39,16 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## Available Scripts
 
-| Script | Description |
-|---|---|
-| `npm run dev` | Start the Vite dev server |
-| `npm run build` | Production build to `dist/` |
-| `npm run preview` | Preview the production build |
-| `npm test` | Run unit tests with Vitest |
-| `npm run test:coverage` | Run tests with V8 coverage (80% threshold) |
-| `npm run knip` | Detect unused exports and dependencies |
-| `npm run jscpd` | Detect duplicated code blocks |
-| `npm run storybook` | Start Storybook dev server at port 6006 |
+| Script                    | Description                                   |
+| ------------------------- | --------------------------------------------- |
+| `npm run dev`             | Start the Vite dev server                     |
+| `npm run build`           | Production build to `dist/`                   |
+| `npm run preview`         | Preview the production build                  |
+| `npm test`                | Run unit tests with Vitest                    |
+| `npm run test:coverage`   | Run tests with V8 coverage (80% threshold)    |
+| `npm run knip`            | Detect unused exports and dependencies        |
+| `npm run jscpd`           | Detect duplicated code blocks                 |
+| `npm run storybook`       | Start Storybook dev server at port 6006       |
 | `npm run build-storybook` | Build static Storybook to `storybook-static/` |
 
 ## How It Works

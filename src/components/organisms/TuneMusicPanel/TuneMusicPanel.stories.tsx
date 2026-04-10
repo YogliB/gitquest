@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 import { TuneMusicPanel } from "./TuneMusicPanel";
-import { mockAnalysis, mockOverridesEmpty, mockOverridesPartial, mockOverridesFull } from "@/stories/mockData";
+import {
+  mockAnalysis,
+  mockOverridesEmpty,
+  mockOverridesPartial,
+  mockOverridesFull,
+} from "@/stories/mockData";
 
 const meta = {
   title: "Organisms/TuneMusicPanel",
