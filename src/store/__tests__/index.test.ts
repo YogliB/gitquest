@@ -1,11 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const mockStorage = vi.hoisted(() => ({
-  getSettings: vi.fn(() => ({})),
-  saveSettings: vi.fn(),
+vi.mock("@/lib/storage", () => ({
+  storage: { getSettings: () => ({}), saveSettings: vi.fn() },
 }));
-
-vi.mock("@/lib/storage", () => ({ storage: mockStorage }));
 
 import { useStore } from "../index";
 
